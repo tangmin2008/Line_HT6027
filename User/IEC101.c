@@ -3,6 +3,7 @@
 #include "serial.h"
 #include "iec101.h"
 #include "TypeRAM.h"
+#include "TypeE2p.h"
 #include "data.h"
 #define justinit 1
 #define initend 2
@@ -502,6 +503,19 @@ void Iec101LinkRecv(void)
   if(Count)
   {
     lpIEC101->wRecvNum +=Count;
+    if(lpIEC101->byRecvBuf[0]==0x7A)
+    {
+      if(lpIEC101->wRecvNum>4)
+      {
+        lpIEC101->wRecvNum=0;
+        if(lpIEC101->byRecvBuf[3]==0xf8)
+           GetATT7022ECalibrateReg(lpIEC101->byRecvBuf+2,lpIEC101->byRecvBuf[1]);
+        else     
+           ComAdjWrite(lpIEC101->byRecvBuf+2,lpIEC101->byRecvBuf[1]);
+        Serial_Write(2,lpIEC101->byRecvBuf,5);
+      }
+      return;
+    }
     for(i=0;i<lpIEC101->wRecvNum;++i)
     {  
       if(lpIEC101->byRecvBuf[i]!=F_STARTCODE && lpIEC101->byRecvBuf[i]!=V_STARTCODE)
@@ -820,23 +834,40 @@ void PLinkRecvProcessV(u8 byConField)
     byFrameCount -= lpIEC101->TypeInfAdd;
     lpIEC101->Sn = lpIEC101->PReAppLayer.lpByBuf[byFrameCount++];
     lpIEC101->Sn = (lpIEC101->Sn) | (lpIEC101->PReAppLayer.lpByBuf[byFrameCount++]<<8);
-    if(lpIEC101->byQualify)
+    //if(lpIEC101->byQualify)
     {
       unsigned char sn_tag;
-      unsigned char tt_buf[8];
+      //unsigned char tt_buf[8];
       float f_val;
       float *p_val;
+      unsigned char *p_buf;
+      short i;
       u16 info_addr;
       sn_tag = lpIEC101->PReAppLayer.lpByBuf[byFrameCount++];
       switch(sn_tag)
       {
+      case 0x00: //¹Ì»¯
+        for(i=0;i<MAX_CH_NUM;++i)
+        {  
+          p_buf =(unsigned char*)&(m_ecpara[i].cmon_day);
+          E2P_WData(CMon_DAY0+i*25,p_buf,24);
+        }
+        break;
+      case 0x40:  //È¡Ïû
+        
+        for(i=0;i<MAX_CH_NUM;++i)
+        {  
+          p_buf =(unsigned char*)&(m_ecpara[i].cmon_day);
+          E2P_RData(p_buf,CMon_DAY0+i*25,24);
+        }
+        break;
       case 0x80:
         for(i=0;i<lpIEC101->byQualify;++i)
         {
           info_addr = lpIEC101->PReAppLayer.lpByBuf[byFrameCount+1];
           info_addr = (info_addr<<8)+(lpIEC101->PReAppLayer.lpByBuf[byFrameCount]);
           byFrameCount +=2;
-          memcpy(tt_buf,lpIEC101->PReAppLayer.lpByBuf+byFrameCount,8);
+          //memcpy(tt_buf,lpIEC101->PReAppLayer.lpByBuf+byFrameCount,8);
           memcpy(&f_val,lpIEC101->PReAppLayer.lpByBuf+byFrameCount+2,4);
           p_val = &(m_ecpara[0].cmon_day);
           *(p_val+(info_addr-0x8021)) = f_val;

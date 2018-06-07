@@ -213,6 +213,8 @@
 #define NEW7022E	NoCheck			//非新版7022E芯片	//新国网
 #endif
 
+#define CPUOutputRTC_Pluse NoCheck
+
 //#define ZjProtocol	YesCheck		//有浙江省通讯规约
 #define ZjProtocol	NoCheck		//无浙江省通讯规约
 

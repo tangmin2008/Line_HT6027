@@ -633,6 +633,7 @@ void ProcHalfSec(void)
 	3. Maxium Demand Measurement
 	4. Even Log File
 ***************************************************/
+
 void ProcSec(void)
 {
   char Buff[8];
@@ -752,6 +753,7 @@ void ProcSec(void)
       Read_ATTValue(ATAngleB,(unsigned char *)&SM.Angle_Ib[i],i);
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
     }
+#if 0   
     for(i=0;i<MAX_CH_NUM;++i)
     {
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
@@ -791,6 +793,7 @@ void ProcSec(void)
         }
       }
     }
+#endif    
 #if 0    
     if(SM.TestDisCnt==0)
     {
@@ -947,7 +950,7 @@ void main(void)
         E2P_WData(ShrpdRecord_Time,flash_id,8);
         E2P_WData(MonthdRecord_Time,flash_id,8);
 #endif
-       // EC_ClearA();
+        //EC_ClearA();
         //Read_E2R1();
         Read_E2R();
         for(i=0;i<MAX_CH_NUM;i++)
@@ -956,11 +959,11 @@ void main(void)
         }
         break;
       }	
-//      if(((Flag.Power & F_PwrUp) != 0) && ( PowerCheck() == 0 ))
-//      {
+      if(((Flag.Power & F_PwrUp) != 0) && ( PowerCheck() == 0 ))
+      {
 //       // Flag.BatState=1;
 //        //PwrDnInit();
-//      }	
+      }	
 //    
       
 //      if(( Flag.Clk & F_ThirdSec )) 	
@@ -972,9 +975,9 @@ void main(void)
         ProcHalfSec();
       }
       if (Flag.Clk & F_Sec) ProcSec();		
-      if (Flag.Clk & F_Min) ProcMin();
-      if (Flag.Clk & F_Hour) ProcHour();
-      if (Flag.Clk & F_Day) ProcDay();
+      //if (Flag.Clk & F_Min) ProcMin();
+      //if (Flag.Clk & F_Hour) ProcHour();
+      //if (Flag.Clk & F_Day) ProcDay();
       
 //      if(Flag.Power & F_PwrUp)
       {	

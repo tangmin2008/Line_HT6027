@@ -108,9 +108,12 @@ void PwrOnInit(void)
    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5;
    HT_GPIO_Init(HT_GPIOA, &GPIO_InitStructure);  
    HT_GPIO_BitsSet(HT_GPIOA,GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5);
+   
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_4;
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_4|GPIO_Pin_11;
    HT_GPIO_Init(HT_GPIOA, &GPIO_InitStructure);
+   
+
 #if 0		
     HT_INT->EXTIE |= (uint32_t)(INT_EXTIE_RIE_INT3);
     HT_INT->PINFLT |= (uint32_t)(INT_EXTIE_RIE_INT3);
@@ -147,19 +150,19 @@ void PwrOnInit(void)
 
 
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF1;
-    GPIO_InitStructure.GPIO_Pin = GPIOC_232_TXD|GPIOC_232_RXD;
+    GPIO_InitStructure.GPIO_Pin = GPIOC_232_TXD|GPIOC_232_RXD|GPIO_Pin_8;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Up;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOC, &GPIO_InitStructure);
     
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_3|GPIO_Pin_9|GPIO_Pin_10|FSI|FSCLK;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_3|GPIO_Pin_9|GPIO_Pin_10|FSI|FSCLK;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOC, &GPIO_InitStructure);
     HT_GPIO_BitsSet(HT_GPIOC,GPIO_Pin_10);
-    HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_8);
+    //HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_8);
 	
 
     /*!< GPIOD配置信息*/     		   
@@ -171,9 +174,9 @@ void PwrOnInit(void)
     HT_GPIO_BitsSet(HT_GPIOD,GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_14|GPIO_Pin_15);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_8|GPIO_Pin_10;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_10|GPIO_Pin_12;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
-    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
     HT_GPIO_Init(HT_GPIOD, &GPIO_InitStructure);
 	
     /*!< GPIOE配置信息*/        		   
@@ -257,7 +260,7 @@ void PwrOnInit(void)
 	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
 	//禁用SysTick滴答定时器
 //	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-
+    HT_RTC_ToutSet(Tout1Hz);
     HT_TBSConfig(TBS_TBSCON_VBATEn,ENABLE);
     HT_TBS_PeriodSet(VBATPRD,TBS_TBSPRD_VBATPRD_2S);
     HT_TBS_ITConfig(TBS_TBSIE_VBATIE,ENABLE);
@@ -474,6 +477,9 @@ void VarInit(void)
   //10000
   MSpec.RMeterConst = 10000;
   MSpec.R7022E_HFConst = 40;
+  //6400
+  //MSpec.RMeterConst = 6400;
+  //MSpec.R7022E_HFConst = 63;
   MSpec.RBaseCurrent = 1000;
   MSpec.RPW00002Ib = 4600;
 }

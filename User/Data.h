@@ -726,5 +726,6 @@ extern ENERGY          Energy_Data[MAX_CH_NUM];
 extern const EVTPARALIST s_PnEvt[];
 extern const EVTPARALIST s_PtEvt[]; 
 extern EC_PARA m_ecpara[MAX_CH_NUM];
+extern const PROFILETAB ProfileTab[];
 #endif
 

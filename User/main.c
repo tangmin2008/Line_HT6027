@@ -23,6 +23,8 @@
 #include "serial.h"
 #include "IEC101.h"
 
+#define EC_E2_W E2P_WData
+#define EC_E2_R E2P_RData
 //第一个字节指针
 //第二个字节数量
 void Pn_Event_Save(int ch,int phase,unsigned char flag)
@@ -39,52 +41,31 @@ void Pn_Event_Save(int ch,int phase,unsigned char flag)
   year = year*256 + Clk.YearL;
   tmp_buf[5]=year-2000;
   
-  m_e2_ptr = s_PnEvt[ch*3+phase].E2_PTR;
-  m_e2_buf = s_PnEvt[ch*3+phase].E2_ADDR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  
-  ptr_buf[0] %=10;
   if(flag)
   {
     memcpy(tmp_buf+6,&SM.PQNum[ch][phase],4);
     memcpy(tmp_buf+10,&Energy_Data[ch],32);
-    E2P_PWData(m_e2_buf+ptr_buf[0]*84,tmp_buf,42);
-    if(ptr_buf[1]<10)
-      ptr_buf[1]++;
+    LoadRecord(CH0_PAP_USEADDR+ch*78+phase*3,tmp_buf);
   }
   else
   {
     memcpy(tmp_buf+6,&Energy_Data[ch],32);
-    E2P_PWData(m_e2_buf+ptr_buf[0]*84+44,tmp_buf,38);
-    ptr_buf[0]++;
+    LoadRecord(CH0_PAN_USEADDR+ch*78+phase*3,tmp_buf);
   }
-  E2P_WData(m_e2_ptr,ptr_buf,2);
 }
 
 int GetPn_Event_num(int ch,int phase)
 {
-  unsigned short m_e2_ptr;
-  unsigned char ptr_buf[4];
-  m_e2_ptr = s_PnEvt[ch*3+phase].E2_PTR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  return ptr_buf[1];
+  int Num;
+  Num = Get_Record_Num(CH0_PAP_USEADDR+ch*78+phase*3);
+  return Num;
 }
 
 int GetPn_Event_Record(int ch,int phase,int No,unsigned char *buf)
 {
-  unsigned short m_e2_ptr,m_e2_buf;
-  int rec_ptr;
-  unsigned char ptr_buf[4];
-  m_e2_ptr = s_PnEvt[ch*3+phase].E2_PTR;
-  m_e2_buf = s_PnEvt[ch*3+phase].E2_ADDR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  if(ptr_buf[1]<10)
-    rec_ptr=No%10;
-  else
-    rec_ptr=(ptr_buf[0]+No)%10;
-  E2P_PRData(buf,m_e2_buf+rec_ptr*84,42);
-  E2P_PRData(buf+42,m_e2_buf+rec_ptr*84+44,38);
-  return ptr_buf[1];
+  ReadRecord(CH0_PAP_USEADDR+ch*78+phase*3,buf,No);
+  ReadRecord(CH0_PAN_USEADDR+ch*78+phase*3,buf+42,No);
+  return 88;
 }
 
 void Pt_Event_Save(int ch)
@@ -102,382 +83,165 @@ void Pt_Event_Save(int ch)
   tmp_buf[5]=year-2000;
   memcpy(tmp_buf+6,&SM.PQNum[ch][3],4);
   memcpy(tmp_buf+10,&Energy_Data[ch],32);
-  m_e2_ptr = s_PtEvt[ch].E2_PTR;
-  m_e2_buf = s_PtEvt[ch].E2_ADDR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  ptr_buf[0] %=10;
-  E2P_PWData(m_e2_buf+ptr_buf[0]*44,tmp_buf,42);
-  if(ptr_buf[1]<10)
-      ptr_buf[1]++;
-  ptr_buf[0]++;
-  E2P_WData(m_e2_ptr,ptr_buf,2);
+  LoadRecord(CH0_PTD_USEADDR+ch*78,tmp_buf);
 }
 
 int GetPt_Event_num(int ch)
 {
-  unsigned short m_e2_ptr;
-  unsigned char ptr_buf[4];
-  m_e2_ptr = s_PtEvt[ch].E2_PTR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  return ptr_buf[1];
+  int Num;
+  Num = Get_Record_Num(CH0_PTD_USEADDR+ch*78);
+  return Num;
 }
 
 int GetPt_Event_Record(int ch,int No,unsigned char *buf)
 {
-  unsigned short m_e2_ptr,m_e2_buf;
-  int rec_ptr;
-  unsigned char ptr_buf[4];
-  m_e2_ptr = s_PnEvt[ch].E2_PTR;
-  m_e2_buf = s_PnEvt[ch].E2_ADDR;
-  E2P_RData(ptr_buf,m_e2_ptr,2);
-  if(ptr_buf[1]<10)
-    rec_ptr=No%10;
-  else
-    rec_ptr=(ptr_buf[0]+No)%10;
-  E2P_PRData(buf,m_e2_buf+rec_ptr*44,42);
-  return ptr_buf[1];
+  ReadRecord(CH0_PTD_USEADDR+ch*78,buf,No);
+  return 42;
 }
 
 short Save_Data(unsigned char *Time_buf)
 {
-  unsigned char Record_buf[16];
-  int i,rec_ptr;
+  int i;
   unsigned char tmp_buf[64];  //秒、分、时、日、月、年、记录 
- // unsigned short year;
-  
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  rec_ptr %=LOAD_RECORD_NUM;
-#if 0  
-  tmp_buf[0]=Clk.SecH;
-  tmp_buf[1]=Clk.MinH;
-  tmp_buf[2]=Clk.HourH;
-  tmp_buf[3]=Clk.DayH;
-  tmp_buf[4]=Clk.Month;
-  year = Clk.YearH;
-  year = year*256 + Clk.YearL;
-  tmp_buf[5]=year-2000;
-#else
   memcpy(tmp_buf,Time_buf,6);
-#endif  
   for(i=0;i<MAX_CH_NUM;++i)
   {
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
-    DataFlash_Write(i*LOAD_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,tmp_buf,0,DAY_DATA_ADDR,ONE_RECORD_LEN);
+    LoadRecord(LOAD0_USEADDR+i*30,tmp_buf);
   }
-  rec_ptr++;
-  if(rec_ptr>=LOAD_RECORD_NUM)
-    Record_buf[1]=1;
-  rec_ptr %=LOAD_RECORD_NUM;
-  Record_buf[0]=rec_ptr;
-  memcpy(Record_buf+2,tmp_buf,6);
-  E2P_WData(LoadRecord_Time,Record_buf,8); 
   return 0;
 }
 
 short Get_LoadData(int No,int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>MAX_CH_NUM)
     return 0;
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  
-  if(Record_buf[1])
-  {
-    rec_ptr = (Record_buf[0]+No);
-  }
-  else
-  {
-    rec_ptr=No;
-  }
-  rec_ptr %=LOAD_RECORD_NUM;
-  Read_Flash(buf,ch*LOAD_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,ONE_RECORD_LEN);
+  ReadRecord(LOAD0_USEADDR+30*ch,buf,No);
   return ONE_RECORD_LEN;
 }
 
 int Load_Record_Num()
 {
   int Num;
-  unsigned char Record_buf[12];
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-  {
-    Num=LOAD_RECORD_NUM;
-  }
-  else
-  {
-    Num=Record_buf[0];
-  }
+  Num = Get_Record_Num(LOAD0_USEADDR);
   return Num;
 }
 
 short Read_LastData(int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>MAX_CH_NUM)
     return 0;
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  if(rec_ptr)
-    rec_ptr--;
-  else
-    rec_ptr=LOAD_RECORD_NUM-1;
-  rec_ptr %=LOAD_RECORD_NUM;
-  Read_Flash(buf,ch*LOAD_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,ONE_RECORD_LEN);
+  ReadRecord(LOAD0_USEADDR+30*ch,buf,0);
   return ONE_RECORD_LEN;
 }
 
 short Save_DayData(unsigned char *Time_buf)
 {
-  unsigned char Record_buf[16];
-  int i,rec_ptr;
+  int i;
   unsigned char tmp_buf[64];  //秒、分、时、日、月、年、记录 
-  
-  E2P_RData(Record_buf,FrzdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  rec_ptr %=DAY_RECORD_NUM;
   memcpy(tmp_buf,Time_buf,6);  
   for(i=0;i<MAX_CH_NUM;++i)
   {
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
-    DataFlash_Write(DAY_DATA_ADDR+i*LOAD_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,tmp_buf,DAY_DATA_ADDR,HOUR_DATA_ADDR,ONE_RECORD_LEN);
+    LoadRecord(FRZD0_USEADDR+i*30,tmp_buf);
   }
-  rec_ptr++;
-  if(rec_ptr>=DAY_RECORD_NUM)
-    Record_buf[1]=1;
-  rec_ptr %=DAY_RECORD_NUM;
-  Record_buf[0]=rec_ptr;
-  memcpy(Record_buf+2,tmp_buf,6);
-  E2P_WData(FrzdRecord_Time,Record_buf,8); 
   return 0;
 }
 
 short Get_DayData(int No,int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>MAX_CH_NUM)
     return 0;
-  E2P_RData(Record_buf,FrzdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  
-  if(Record_buf[1])
-  {
-    rec_ptr = (Record_buf[0]+No);
-  }
-  else
-  {
-    rec_ptr=No;
-  }
-  rec_ptr %=DAY_RECORD_NUM;
-  Read_Flash(buf,DAY_DATA_ADDR+ch*DAY_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,ONE_RECORD_LEN);
+  ReadRecord(FRZD0_USEADDR+30*ch,buf,No);
   return ONE_RECORD_LEN;
 }
 
 int Day_Record_Num()
 {
   int Num;
-  unsigned char Record_buf[12];
-  E2P_RData(Record_buf,FrzdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-  {
-    Num=DAY_RECORD_NUM;
-  }
-  else
-  {
-    Num=Record_buf[0];
-  }
+  Num = Get_Record_Num(FRZD0_USEADDR);
   return Num;
 }
 
 short Save_HourData(unsigned char *Time_buf)
 {
-  unsigned char Record_buf[16];
-  int i,rec_ptr;
+  int i;
   unsigned char tmp_buf[64];  //秒、分、时、日、月、年、记录 
-  
-  E2P_RData(Record_buf,ShrpdRecord_Time,9); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  rec_ptr += Record_buf[1]*256;
-  rec_ptr %=HOUR_RECORD_NUM;
   memcpy(tmp_buf,Time_buf,6);  
   for(i=0;i<MAX_CH_NUM;++i)
   {
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
-    DataFlash_Write(HOUR_DATA_ADDR+i*LOAD_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,tmp_buf,HOUR_DATA_ADDR,END_DATA_ADDR,ONE_RECORD_LEN);
-  }
-  rec_ptr++;
-  if(rec_ptr>=HOUR_RECORD_NUM)
-    Record_buf[2]=1;
-  rec_ptr %=HOUR_RECORD_NUM;
-  Record_buf[0]=rec_ptr;
-  Record_buf[1]=(rec_ptr>>8)&0xff;
-  memcpy(Record_buf+3,tmp_buf,6);
-  E2P_WData(ShrpdRecord_Time,Record_buf,9); 
+    LoadRecord(SHRP0_USEADDR+i*30,tmp_buf);
+  } 
   return 0;
 }
 
 short Get_HourData(int No,int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>MAX_CH_NUM)
     return 0;
-  E2P_RData(Record_buf,ShrpdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  rec_ptr += Record_buf[1]*256;
-  if(Record_buf[2])
-  {
-    rec_ptr = (rec_ptr+No);
-  }
-  else
-  {
-    rec_ptr=No;
-  }
-  rec_ptr %=HOUR_RECORD_NUM;
-  Read_Flash(buf,HOUR_DATA_ADDR+ch*HOUR_RECORD_SIZE+rec_ptr*ONE_RECORD_SIZE,ONE_RECORD_LEN);
+  ReadRecord(SHRP0_USEADDR+30*ch,buf,No);
   return ONE_RECORD_LEN;
 }
 
 int Hour_Record_Num()
-{
+{       
   int Num;
-  unsigned char Record_buf[12];
-  E2P_RData(Record_buf,ShrpdRecord_Time,9); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[2])
-  {
-    Num=HOUR_RECORD_NUM;
-  }
-  else
-  {
-    Num = Record_buf[0];
-    Num += Record_buf[1]*256;
-  }
+  Num = Get_Record_Num(SHRP0_USEADDR);
   return Num;
 }
 
 short Save_MonthData(unsigned char *Time_buf)
 {
-  unsigned char Record_buf[16];
-  int i,rec_ptr;
+  int i;
   unsigned char tmp_buf[64];  //秒、分、时、日、月、年、记录 
-  
-  E2P_RData(Record_buf,MonthdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  if(rec_ptr>=MONTH_RECORD_NUM)
-    rec_ptr = 0;
   memcpy(tmp_buf,Time_buf,6);  
   for(i=0;i<MAX_CH_NUM;++i)
   {
     memcpy(tmp_buf+6,&Energy_Data[i],E2ONE_RECORD_LEN-6);
-    E2P_PWData(i*MONTH_RECORD_SIZE+rec_ptr*E2ONE_RECORD_SIZE,tmp_buf,E2ONE_RECORD_LEN);
-  }
-  rec_ptr++;
-  if(rec_ptr>=MONTH_RECORD_NUM)
-    Record_buf[1]=1;
-  rec_ptr %=MONTH_RECORD_NUM;
-  Record_buf[0]=rec_ptr;
-  memcpy(Record_buf+2,tmp_buf,6);
-  E2P_WData(MonthdRecord_Time,Record_buf,8); 
+    LoadRecord(MOND0_USEADDR+i*30,tmp_buf);
+  } 
   return 0;
 }
 
 short Get_MonthData(int No,int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>8)
     return 0;
-  E2P_RData(Record_buf,MonthdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  
-  if(Record_buf[1])
-  {
-    rec_ptr = (Record_buf[0]+No);
-  }
-  else
-  {
-    rec_ptr=No;
-  }
-  rec_ptr %=MONTH_RECORD_NUM;
-  E2P_PRData(buf,ch*MONTH_RECORD_SIZE+rec_ptr*E2ONE_RECORD_SIZE,E2ONE_RECORD_LEN);
+  ReadRecord(MOND0_USEADDR+30*ch,buf,No);
   return E2ONE_RECORD_LEN;
 }
 
 int Month_Record_Num()
 {
   int Num;
-  unsigned char Record_buf[12];
-  E2P_RData(Record_buf,MonthdRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-  {
-    Num=MONTH_RECORD_NUM;
-  }
-  else
-  {
-    Num = Record_buf[0];
-  }
+  Num = Get_Record_Num(MOND0_USEADDR);
   return Num;
 }
 
 short Save_RandData(unsigned char *Time_buf)
 {
-  unsigned char Record_buf[16];
-  int i,rec_ptr;
+  int i;
   unsigned char tmp_buf[64];  //秒、分、时、日、月、年、记录 
-  
-  E2P_RData(Record_buf,RandRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  rec_ptr = Record_buf[0];
-  if(rec_ptr>=RAND_RECORD_NUM)
-    rec_ptr = 0;
   memcpy(tmp_buf,Time_buf,6);  
   for(i=0;i<MAX_CH_NUM;++i)
   {
     memcpy(tmp_buf+6,&Energy_Data[i],E2ONE_RECORD_LEN-6);
-    E2P_PWData(RAND_DATA_ADDR+i*RAND_RECORD_SIZE+rec_ptr*E2ONE_RECORD_SIZE,tmp_buf,E2ONE_RECORD_LEN);
-  }
-  rec_ptr++;
-  if(rec_ptr>=RAND_RECORD_NUM)
-    Record_buf[1]=1;
-  rec_ptr %=RAND_RECORD_NUM;
-  Record_buf[0]=rec_ptr;
-  memcpy(Record_buf+2,tmp_buf,6);
-  E2P_WData(RandRecord_Time,Record_buf,8); 
+    LoadRecord(RAND0_USEADDR+i*30,tmp_buf);
+  } 
   return 0;
 }
 short Get_RandData(int No,int ch,unsigned char *buf)
 {
-  unsigned char Record_buf[12];
-  int rec_ptr;
   if(ch>MAX_CH_NUM)
     return 0;
-  E2P_RData(Record_buf,RandRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  
-  if(Record_buf[1])
-  {
-    rec_ptr = (Record_buf[0]+No);
-  }
-  else
-  {
-    rec_ptr=No;
-  }
-  rec_ptr %=RAND_RECORD_NUM;
-  E2P_PRData(buf,RAND_DATA_ADDR+ch*RAND_RECORD_SIZE+rec_ptr*E2ONE_RECORD_SIZE,E2ONE_RECORD_LEN);
+  ReadRecord(RAND0_USEADDR+30*ch,buf,No);
   return E2ONE_RECORD_LEN;
 }
 int Rand_Record_Num()
 {
   int Num;
-  unsigned char Record_buf[12];
-  E2P_RData(Record_buf,RandRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-  {
-    Num=RAND_RECORD_NUM;
-  }
-  else
-  {
-    Num = Record_buf[0];
-  }
+  Num = Get_Record_Num(RAND0_USEADDR);
   return Num;
 }
 
@@ -486,12 +250,7 @@ int Rand_Record_Num()
 int Get_LoadFile_Msg_Len(void)
 {
   int Len,rec_ptr;
-  unsigned char Record_buf[16];
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-     rec_ptr = LOAD_RECORD_NUM;
-  else
-    rec_ptr = Record_buf[0];
+  rec_ptr=Load_Record_Num();
   Len = 51+rec_ptr*189; 
   return Len; 
 }
@@ -499,12 +258,7 @@ int Get_LoadFile_Msg_Len(void)
 int Get_LoadFile_Xml_Len(void)
 {
   int Len,rec_ptr;
-  unsigned char Record_buf[16];
-  E2P_RData(Record_buf,LoadRecord_Time,8); //记录指针 秒、分、时、日、月、年
-  if(Record_buf[1])
-     rec_ptr = LOAD_RECORD_NUM;
-  else
-    rec_ptr = Record_buf[0];
+  rec_ptr=Load_Record_Num();
   Len = 100+rec_ptr*256; 
   return Len; 
 }
@@ -532,7 +286,7 @@ void EC_MeasA(void)
     {
       *ECRAds += (*ECRamBufAdsPtr/Ps2);//*ECRamBufAdsPtr;
       ECEAds = ECRgTab[i].ECEAds;
-      E2P_WData(ECEAds,(unsigned char*)ECRAds,4);
+      EC_E2_W(ECEAds,(unsigned char*)ECRAds,4);
       *ECRamBufAdsPtr %= Ps2;
       *ECRamBufChkAdsPtr = ChkNum((unsigned char*)ECRamBufAdsPtr,2);
     }
@@ -549,7 +303,7 @@ void EC_ClearA(void)
   {
     ECRAds = ECRgTab[i].ECRAds;
     ECEAds = ECRgTab[i].ECEAds;
-    E2P_WData(ECEAds,tmpbuf,4);
+    EC_E2_W(ECEAds,tmpbuf,4);
     *ECRAds = 0;
   }
 }
@@ -562,20 +316,66 @@ void Read_E2R()
   {
     ECRAds = ECRgTab[i].ECRAds;
     ECEAds = ECRgTab[i].ECEAds;
-    E2P_RData((unsigned char*)ECRAds,ECEAds,4);
+    EC_E2_R((unsigned char*)ECRAds,ECEAds,4);
+  }
+}
+
+void Clear_E2R(int chan)
+{
+  int i,j;
+  unsigned long* ECRAds;
+  unsigned short ECEAds;
+  unsigned char tmpbuf[8];
+  memset(tmpbuf,0,8);
+  if(chan==0)
+  {
+    chan=ECUnitNum;
+    i = 0; 
+  }
+  else
+  {
+    i = 8*(chan-1);
+    chan = 8*chan;
+  }
+  while(i<chan)
+  {
+    ECRAds = ECRgTab[i].ECRAds;
+    ECEAds = ECRgTab[i].ECEAds;
+    EC_E2_W(ECEAds,tmpbuf,4);
+    ++i;
+  }
+}
+
+void Clear_EVT2R(int chan)
+{
+  int i;
+  unsigned char ptr_buf[4];
+  memset(ptr_buf,0,4);
+  if(chan==0)
+  {
+    chan=26*MAX_CH_NUM;
+    i = 0; 
+  }
+  else
+  {
+    i = 26*(chan-1);
+    chan = 26*chan;
+  }
+  while(i<chan)
+  {
+    EC_E2_W(LOAD0_USEADDR+3*i,ptr_buf,2);
+    ++i;
   }
 }
 
 void Read_E2R1()
 {
   int i;
-  unsigned short m_e2_ptr;
   unsigned char ptr_buf[4];
-  memset(ptr_buf,0,8);
-  for( i=0;i<24;++i)
+  memset(ptr_buf,0,4);
+  for( i=0;i<26*MAX_CH_NUM;++i)
   {
-    m_e2_ptr = s_PnEvt[i].E2_PTR;
-    E2P_WData(m_e2_ptr,ptr_buf,2);
+    EC_E2_W(LOAD0_USEADDR+3*i,ptr_buf,2);
   }
 }
 
@@ -753,7 +553,7 @@ void ProcSec(void)
       Read_ATTValue(ATAngleB,(unsigned char *)&SM.Angle_Ib[i],i);
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
     }
-#if 0   
+#if 1   
     for(i=0;i<MAX_CH_NUM;++i)
     {
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
@@ -898,8 +698,8 @@ void main(void)
   unsigned int i;
   unsigned char flash_id[16];
   HT_FreeDog();
-  //i = 5000;
-  i=E2END_DATA_ADDR;
+  i = 5000;
+  //i=E2END_DATA_ADDR;
   while(i--);
   fnTarget_Init();
  // Flag.BatState=0;
@@ -925,9 +725,15 @@ void main(void)
         InitPara5();
         Serial_Open(2,9600,8,UartParity_Disable);
 	InitPara6();
+        flash_id[0]=0x94;
+        flash_id[1]=0x09;
+        flash_id[2]=0x00;
+        flash_id[3]=0x80;
+        Sample_Error(flash_id);
+        Load_InfoData();
        // Serial_Write(2,"Start Debug\r\n",13);   
         InitIEC101Prot();
-        Read_FlashID(flash_id);
+   //     Read_FlashID(flash_id);
 #if 0        
         BlockErase(0);
         Read_Flash(flash_id,0,10);
@@ -975,9 +781,9 @@ void main(void)
         ProcHalfSec();
       }
       if (Flag.Clk & F_Sec) ProcSec();		
-      //if (Flag.Clk & F_Min) ProcMin();
-      //if (Flag.Clk & F_Hour) ProcHour();
-      //if (Flag.Clk & F_Day) ProcDay();
+      if (Flag.Clk & F_Min) ProcMin();
+      if (Flag.Clk & F_Hour) ProcHour();
+      if (Flag.Clk & F_Day) ProcDay();
       
 //      if(Flag.Power & F_PwrUp)
       {	

@@ -281,6 +281,9 @@
       <name>$PROJ_DIR$\..\User\power.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\User\Profile.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\User\Ram.c</name>
     </file>
     <file>

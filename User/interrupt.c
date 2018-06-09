@@ -108,7 +108,7 @@ void SysTick_Handler()			//1/64秒中断
     if(( Clk.Sec_64 == 0 )||( Clk.Sec_64 == 32 )) 					//PWMD
     {																//PWMD
       Flag.Clk |= F_HalfSec;
-      HT_GPIO_BitsToggle(HT_GPIOC,GPIO_Pin_8);		
+      //HT_GPIO_BitsToggle(HT_GPIOC,GPIO_Pin_8);		
     }																//PWMD	
     if(( Clk.Sec_64 == 0 )||( Clk.Sec_64 == 21 )||( Clk.Sec_64 == 42 )) 
     {
@@ -587,6 +587,7 @@ void TIMER_0_IRQHandler()
         HT_TMR_ClearITPendingBit(HT_TMR0, TMR_TMRIF_CMPIF);                    /*!< 清除中断标志       */         
     } 
     Iec101WatchTime();
+   // SM.CalibCount++;
 }
 
 /*

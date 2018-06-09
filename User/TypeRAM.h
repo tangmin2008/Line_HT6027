@@ -814,8 +814,8 @@ typedef struct
 typedef struct
 {
   unsigned int HDLC_ADDR;
-  BCD3	RAT7022ChkSum;			//7022校表数据校验和	//ATChk
-  BCD3	RAT7022ChkSum2;			//7022E校表数据校验和2
+  BCD3	RAT7022ChkSum[MAX_CH_NUM];			//7022校表数据校验和	//ATChk
+  BCD3	RAT7022ChkSum2[MAX_CH_NUM];			//7022E校表数据校验和2
 } PARA;
 
 typedef struct
@@ -1404,7 +1404,7 @@ typedef struct
   unsigned long BatteryWTime;
   unsigned long ClockBatAD; 
   unsigned int CalibCount;
-  unsigned int AT7022ChkSumCnt;
+  unsigned int AT7022ChkSumCnt[MAX_CH_NUM];
   unsigned int MeasChipErrCnt;
   unsigned int State[8];
   unsigned int PulseWidthCnt[8];
@@ -3453,10 +3453,10 @@ typedef struct
 
 typedef struct
 {
-	unsigned long CurRecNo;			//当前记录号
-    unsigned long AvailRecs;		//当前已存储的有效记录数
-	unsigned long MaxCunt;			//存储空间最大记录数
-	unsigned long RecdCunt;			//存储空间最大有效记录数，去除4K轮转池后
+	unsigned short CurRecNo;			//当前记录号
+        unsigned short AvailRecs;		//当前已存储的有效记录数
+	unsigned short MaxCunt;			//存储空间最大记录数
+	unsigned short RecdCunt;			//存储空间最大有效记录数，去除4K轮转池后
 	unsigned short  StartPageNo;		//存储空间起始页号
 	unsigned short  Pages;			//存储空间所占用页数
 	unsigned short  RecsInPage;		//每页记录数
@@ -4620,24 +4620,14 @@ typedef struct
 }DLMS_REG_ACTIVATIONTAB;
 typedef struct
 {
-	unsigned  short PtAddr;			//当前记录首地址指针(该记录所占用的FLASH空间内的相对地址)
-	unsigned char Logical_Name[6];
-	unsigned long StartAddr;			//记录起始地址:FLASH起始页号												
+	unsigned short PtAddr;			//当前记录首地址指针(该记录所占用的FLASH空间内的相对地址)
+	unsigned short StartAddr;			//记录起始地址:FLASH起始页号												
 	unsigned short EndAddr;			//记录结束地址(占用FLASH页数)												
-	unsigned short CapNumAddr;		//曲线捕获项数地址
-	unsigned short CapNumMax;			//曲线最大捕获项数(物理空间允许接收的项数)
 	unsigned short RecdLenAddr;		//每条记录长度地址(根据捕获内容得到)
-//	unsigned short EntriesMaxAddr;	//物理允许最大条目数地址(根据物理空间和每条记录长度计算得到)
-	unsigned short CapObjAddr;		//捕获项地址
-	unsigned short PeriodAddr;		//捕获周期地址
-	unsigned short SortMethodAddr;	//排序方法地址
-	unsigned short SortObjectAddr;	//排序对象地址
-	unsigned short EntriesUseAddr;	//有效条目数地址，该数最大为允许读取的总记录条数，超过后不再增加。记录清零时只需将其清零即可
+	unsigned short EntriesUseAddr;	        //有效条目数地址，该数最大为允许读取的总记录条数，超过后不再增加。记录清零时只需将其清零即可
 	unsigned short EntriesAddr;		//逻辑最大条目数地址(读取时最大条目数)
 	unsigned short ECurRecNoAddr;		//当前记录号地址
-	unsigned short InitCapNumber;		//曲线初始化捕获项数
-	unsigned char* InitCapObjTab;	//曲线初始化捕获项表格
-}DLMS_PROFILETAB;	
+}PROFILETAB;	
 //寄存器通讯表格
 typedef struct
 {

@@ -130,68 +130,250 @@
 #define CDay_TrendVal7                  CDay_InvertTime7+5
 #define CDay_TrendTime7                 CDay_TrendVal7+5
 
-#define	ClockAdj			CDay_TrendTime7+4	//（2）//结束地址:0x088D
 
+#define	ClockAdj			CDay_TrendTime7+4	//（2）//结束地址:0x088D
+#define ID_TpsCode                      ClockAdj+4
 //事件参数均改为HEX码
-#define	EPhFail_Valve		          ClockAdj+6		          //失压起始阀值(3)			yyy.y V 
+#define	EPhFail_Valve		          ClockAdj+7		          //失压起始阀值(3)			yyy.y V 
 #define AT7022ChkSum		          EPhFail_Valve+7		//7022校表数据校验和(4)		//ATChk		//V1000
 #define AT7022ChkSum2		          AT7022ChkSum+6		//7022e校表数据校验和2(4)		//ATChk		//V1000
 
-#define IEC_LINK_ADDR                    ClockAdj+6      //2
-#define IEC_COMM_ADDR                    IEC_LINK_ADDR+4  //2
-#define	LoadRecord_Time		         IEC_COMM_ADDR+4 //符合去的时间，指针记录
-#define	RandRecord_Time                  LoadRecord_Time+10 //瞬时冻结
-#define	FrzdRecord_Time                  RandRecord_Time+10  //日冻结
-#define	ShrpdRecord_Time                 FrzdRecord_Time+10 //整点冻结
-#define	MonthdRecord_Time                ShrpdRecord_Time+10  //考核日冻结
+#define IEC_LINK_ADDR                     ClockAdj+6      //2
+#define IEC_COMM_ADDR                     IEC_LINK_ADDR+4  //2
+#define LOAD0_USEADDR                     IEC_COMM_ADDR+3  //负荷
+#define LOAD0_CURADDR                     LOAD0_USEADDR+3
+#define RAND0_USEADDR                     LOAD0_CURADDR+3   //瞬时
+#define RAND0_CURADDR                     RAND0_USEADDR+3
+#define FRZD0_USEADDR                     RAND0_CURADDR+3  //日冻结
+#define FRZD0_CURADDR                     FRZD0_USEADDR+3
+#define SHRP0_USEADDR                     FRZD0_CURADDR+3 //整点
+#define SHRP0_CURADDR                     SHRP0_USEADDR+3
+#define MOND0_USEADDR                     SHRP0_CURADDR+3 //考核日
+#define MOND0_CURADDR                     MOND0_USEADDR+3
 
-#define	CH0_PAN_EVT_PT                   MonthdRecord_Time+10
-#define	CH0_PBN_EVT_PT                   CH0_PAN_EVT_PT+3
-#define	CH0_PCN_EVT_PT                   CH0_PBN_EVT_PT+3
-#define	CH0_PTD_EVT_PT                   CH0_PCN_EVT_PT+3
-#define	CH0_CLR_EVT_PT                   CH0_PCN_EVT_PT+3
+#define LOAD1_USEADDR                     MOND0_CURADDR+3  //负荷
+#define LOAD1_CURADDR                     LOAD1_USEADDR+3
+#define RAND1_USEADDR                     LOAD1_CURADDR+3   //瞬时
+#define RAND1_CURADDR                     RAND1_USEADDR+3
+#define FRZD1_USEADDR                     RAND1_CURADDR+3  //日冻结
+#define FRZD1_CURADDR                     FRZD1_USEADDR+3
+#define SHRP1_USEADDR                     FRZD1_CURADDR+3 //整点
+#define SHRP1_CURADDR                     SHRP1_USEADDR+3
+#define MOND1_USEADDR                     SHRP1_CURADDR+3 //考核日
+#define MOND1_CURADDR                     MOND1_USEADDR+3
 
-#define	CH1_PAN_EVT_PT                   CH0_CLR_EVT_PT+3
-#define	CH1_PBN_EVT_PT                   CH1_PAN_EVT_PT+3
-#define	CH1_PCN_EVT_PT                   CH1_PBN_EVT_PT+3
-#define	CH1_PTD_EVT_PT                   CH1_PCN_EVT_PT+3
-#define	CH1_CLR_EVT_PT                   CH1_PCN_EVT_PT+3
+#define LOAD2_USEADDR                     MOND1_CURADDR+3  //负荷
+#define LOAD2_CURADDR                     LOAD2_USEADDR+3
+#define RAND2_USEADDR                     LOAD2_CURADDR+3   //瞬时
+#define RAND2_CURADDR                     RAND2_USEADDR+3
+#define FRZD2_USEADDR                     RAND2_CURADDR+3  //日冻结
+#define FRZD2_CURADDR                     FRZD2_USEADDR+3
+#define SHRP2_USEADDR                     FRZD2_CURADDR+3 //整点
+#define SHRP2_CURADDR                     SHRP2_USEADDR+3
+#define MOND2_USEADDR                     SHRP2_CURADDR+3 //考核日
+#define MOND2_CURADDR                     MOND2_USEADDR+3
 
-#define	CH2_PAN_EVT_PT                   CH1_CLR_EVT_PT+3
-#define	CH2_PBN_EVT_PT                   CH2_PAN_EVT_PT+3
-#define	CH2_PCN_EVT_PT                   CH2_PBN_EVT_PT+3
-#define	CH2_PTD_EVT_PT                   CH2_PCN_EVT_PT+3
-#define	CH2_CLR_EVT_PT                   CH2_PCN_EVT_PT+3
+#define LOAD3_USEADDR                     MOND2_CURADDR+3  //负荷
+#define LOAD3_CURADDR                     LOAD3_USEADDR+3
+#define RAND3_USEADDR                     LOAD3_CURADDR+3   //瞬时
+#define RAND3_CURADDR                     RAND3_USEADDR+3
+#define FRZD3_USEADDR                     RAND3_CURADDR+3  //日冻结
+#define FRZD3_CURADDR                     FRZD3_USEADDR+3
+#define SHRP3_USEADDR                     FRZD3_CURADDR+3 //整点
+#define SHRP3_CURADDR                     SHRP3_USEADDR+3
+#define MOND3_USEADDR                     SHRP3_CURADDR+3 //考核日
+#define MOND3_CURADDR                     MOND3_USEADDR+3
 
-#define	CH3_PAN_EVT_PT                   CH2_CLR_EVT_PT+3
-#define	CH3_PBN_EVT_PT                   CH3_PAN_EVT_PT+3
-#define	CH3_PCN_EVT_PT                   CH3_PBN_EVT_PT+3
-#define	CH3_PTD_EVT_PT                   CH3_PCN_EVT_PT+3
-#define	CH3_CLR_EVT_PT                   CH3_PCN_EVT_PT+3
+#define LOAD4_USEADDR                     MOND3_CURADDR+3  //负荷
+#define LOAD4_CURADDR                     LOAD4_USEADDR+3
+#define RAND4_USEADDR                     LOAD4_CURADDR+3   //瞬时
+#define RAND4_CURADDR                     RAND4_USEADDR+3
+#define FRZD4_USEADDR                     RAND4_CURADDR+3  //日冻结
+#define FRZD4_CURADDR                     FRZD4_USEADDR+3
+#define SHRP4_USEADDR                     FRZD4_CURADDR+3 //整点
+#define SHRP4_CURADDR                     SHRP4_USEADDR+3
+#define MOND4_USEADDR                     SHRP4_CURADDR+3 //考核日
+#define MOND4_CURADDR                     MOND4_USEADDR+3
 
-#define	CH4_PAN_EVT_PT                   CH3_CLR_EVT_PT+3
-#define	CH4_PBN_EVT_PT                   CH4_PAN_EVT_PT+3
-#define	CH4_PCN_EVT_PT                   CH4_PBN_EVT_PT+3
-#define	CH4_PTD_EVT_PT                   CH4_PCN_EVT_PT+3
-#define	CH4_CLR_EVT_PT                   CH4_PCN_EVT_PT+3
+#define LOAD5_USEADDR                     MOND4_CURADDR+3  //负荷
+#define LOAD5_CURADDR                     LOAD5_USEADDR+3
+#define RAND5_USEADDR                     LOAD5_CURADDR+3   //瞬时
+#define RAND5_CURADDR                     RAND5_USEADDR+3
+#define FRZD5_USEADDR                     RAND5_CURADDR+3  //日冻结
+#define FRZD5_CURADDR                     FRZD5_USEADDR+3
+#define SHRP5_USEADDR                     FRZD5_CURADDR+3 //整点
+#define SHRP5_CURADDR                     SHRP5_USEADDR+3
+#define MOND5_USEADDR                     SHRP5_CURADDR+3 //考核日
+#define MOND5_CURADDR                     MOND5_USEADDR+3
 
-#define	CH5_PAN_EVT_PT                   CH4_CLR_EVT_PT+3
-#define	CH5_PBN_EVT_PT                   CH5_PAN_EVT_PT+3
-#define	CH5_PCN_EVT_PT                   CH5_PBN_EVT_PT+3
-#define	CH5_PTD_EVT_PT                   CH5_PCN_EVT_PT+3
-#define	CH5_CLR_EVT_PT                   CH5_PCN_EVT_PT+3
+#define LOAD6_USEADDR                     MOND5_CURADDR+3  //负荷
+#define LOAD6_CURADDR                     LOAD6_USEADDR+3
+#define RAND6_USEADDR                     LOAD6_CURADDR+3   //瞬时
+#define RAND6_CURADDR                     RAND6_USEADDR+3
+#define FRZD6_USEADDR                     RAND6_CURADDR+3  //日冻结
+#define FRZD6_CURADDR                     FRZD6_USEADDR+3
+#define SHRP6_USEADDR                     FRZD6_CURADDR+3 //整点
+#define SHRP6_CURADDR                     SHRP6_USEADDR+3
+#define MOND6_USEADDR                     SHRP6_CURADDR+3 //考核日
+#define MOND6_CURADDR                     MOND6_USEADDR+3
 
-#define	CH6_PAN_EVT_PT                   CH5_CLR_EVT_PT+3
-#define	CH6_PBN_EVT_PT                   CH6_PAN_EVT_PT+3
-#define	CH6_PCN_EVT_PT                   CH6_PBN_EVT_PT+3
-#define	CH6_PTD_EVT_PT                   CH6_PCN_EVT_PT+3
-#define	CH6_CLR_EVT_PT                   CH6_PCN_EVT_PT+3
+#define LOAD7_USEADDR                     MOND6_CURADDR+3  //负荷
+#define LOAD7_CURADDR                     LOAD7_USEADDR+3
+#define RAND7_USEADDR                     LOAD7_CURADDR+3   //瞬时
+#define RAND7_CURADDR                     RAND7_USEADDR+3
+#define FRZD7_USEADDR                     RAND7_CURADDR+3  //日冻结
+#define FRZD7_CURADDR                     FRZD7_USEADDR+3
+#define SHRP7_USEADDR                     FRZD7_CURADDR+3 //整点
+#define SHRP7_CURADDR                     SHRP7_USEADDR+3
+#define MOND7_USEADDR                     SHRP7_CURADDR+3 //考核日
+#define MOND7_CURADDR                     MOND7_USEADDR+3
 
-#define	CH7_PAN_EVT_PT                   CH6_CLR_EVT_PT+3
-#define	CH7_PBN_EVT_PT                   CH7_PAN_EVT_PT+3
-#define	CH7_PCN_EVT_PT                   CH7_PBN_EVT_PT+3
-#define	CH7_PTD_EVT_PT                   CH7_PCN_EVT_PT+3
-#define	CH7_CLR_EVT_PT                   CH7_PCN_EVT_PT+3
+#define	CH0_PAP_USEADDR                   MOND0_CURADDR+3
+#define	CH0_PBP_USEADDR                   CH0_PAP_USEADDR+3
+#define	CH0_PCP_USEADDR                   CH0_PBP_USEADDR+3
+#define	CH0_PAN_USEADDR                   CH0_PCP_USEADDR+3
+#define	CH0_PBN_USEADDR                   CH0_PAN_USEADDR+3
+#define	CH0_PCN_USEADDR                   CH0_PBN_USEADDR+3
+#define	CH0_PTD_USEADDR                   CH0_PCN_USEADDR+3
+#define	CH0_CLR_USEADDR                   CH0_PTD_USEADDR+3
+
+#define	CH0_PAP_CURADDR                   CH0_CLR_USEADDR+3
+#define	CH0_PBP_CURADDR                   CH0_PAP_CURADDR+3
+#define	CH0_PCP_CURADDR                   CH0_PBP_CURADDR+3
+#define	CH0_PAN_CURADDR                   CH0_PCP_CURADDR+3
+#define	CH0_PBN_CURADDR                   CH0_PAN_CURADDR+3
+#define	CH0_PCN_CURADDR                   CH0_PBN_CURADDR+3
+#define	CH0_PTD_CURADDR                   CH0_PCN_CURADDR+3
+#define	CH0_CLR_CURADDR                   CH0_PTD_CURADDR+3
+
+
+
+
+#define	CH1_PAP_USEADDR                   CH0_CLR_CURADDR+3
+#define	CH1_PBP_USEADDR                   CH1_PAP_USEADDR+3
+#define	CH1_PCP_USEADDR                   CH1_PBP_USEADDR+3
+#define	CH1_PAN_USEADDR                   CH1_PCP_USEADDR+3
+#define	CH1_PBN_USEADDR                   CH1_PAN_USEADDR+3
+#define	CH1_PCN_USEADDR                   CH1_PBN_USEADDR+3
+#define	CH1_PTD_USEADDR                   CH1_PCN_USEADDR+3
+#define	CH1_CLR_USEADDR                   CH1_PTD_USEADDR+3
+
+#define	CH1_PAP_CURADDR                   CH1_CLR_USEADDR+3
+#define	CH1_PBP_CURADDR                   CH1_PAP_CURADDR+3
+#define	CH1_PCP_CURADDR                   CH1_PBP_CURADDR+3
+#define	CH1_PAN_CURADDR                   CH1_PCP_CURADDR+3
+#define	CH1_PBN_CURADDR                   CH1_PAN_CURADDR+3
+#define	CH1_PCN_CURADDR                   CH1_PBN_CURADDR+3
+#define	CH1_PTD_CURADDR                   CH1_PCN_CURADDR+3
+#define	CH1_CLR_CURADDR                   CH1_PTD_CURADDR+3
+
+#define	CH2_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH2_PBP_USEADDR                   CH2_PAP_USEADDR+3
+#define	CH2_PCP_USEADDR                   CH2_PBP_USEADDR+3
+#define	CH2_PAN_USEADDR                   CH2_PCP_USEADDR+3
+#define	CH2_PBN_USEADDR                   CH2_PAN_USEADDR+3
+#define	CH2_PCN_USEADDR                   CH2_PBN_USEADDR+3
+#define	CH2_PTD_USEADDR                   CH2_PCN_USEADDR+3
+#define	CH2_CLR_USEADDR                   CH2_PTD_USEADDR+3
+
+#define	CH2_PAP_CURADDR                   CH2_CLR_USEADDR+3
+#define	CH2_PBP_CURADDR                   CH2_PAP_CURADDR+3
+#define	CH2_PCP_CURADDR                   CH2_PBP_CURADDR+3
+#define	CH2_PAN_CURADDR                   CH2_PCP_CURADDR+3
+#define	CH2_PBN_CURADDR                   CH2_PAN_CURADDR+3
+#define	CH2_PCN_CURADDR                   CH2_PBN_CURADDR+3
+#define	CH2_PTD_CURADDR                   CH2_PCN_CURADDR+3
+#define	CH2_CLR_CURADDR                   CH2_PTD_CURADDR+3
+
+#define	CH3_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH3_PBP_USEADDR                   CH3_PAP_USEADDR+3
+#define	CH3_PCP_USEADDR                   CH3_PBP_USEADDR+3
+#define	CH3_PAN_USEADDR                   CH3_PCP_USEADDR+3
+#define	CH3_PBN_USEADDR                   CH3_PAN_USEADDR+3
+#define	CH3_PCN_USEADDR                   CH3_PBN_USEADDR+3
+#define	CH3_PTD_USEADDR                   CH3_PCN_USEADDR+3
+#define	CH3_CLR_USEADDR                   CH3_PTD_USEADDR+3
+
+#define	CH3_PAP_CURADDR                   CH3_CLR_USEADDR+3
+#define	CH3_PBP_CURADDR                   CH3_PAP_CURADDR+3
+#define	CH3_PCP_CURADDR                   CH3_PBP_CURADDR+3
+#define	CH3_PAN_CURADDR                   CH3_PCP_CURADDR+3
+#define	CH3_PBN_CURADDR                   CH3_PAN_CURADDR+3
+#define	CH3_PCN_CURADDR                   CH3_PBN_CURADDR+3
+#define	CH3_PTD_CURADDR                   CH3_PCN_CURADDR+3
+#define	CH3_CLR_CURADDR                   CH3_PTD_CURADDR+3
+
+#define	CH4_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH4_PBP_USEADDR                   CH4_PAP_USEADDR+3
+#define	CH4_PCP_USEADDR                   CH4_PBP_USEADDR+3
+#define	CH4_PAN_USEADDR                   CH4_PCP_USEADDR+3
+#define	CH4_PBN_USEADDR                   CH4_PAN_USEADDR+3
+#define	CH4_PCN_USEADDR                   CH4_PBN_USEADDR+3
+#define	CH4_PTD_USEADDR                   CH4_PCN_USEADDR+3
+#define	CH4_CLR_USEADDR                   CH4_PTD_USEADDR+3
+
+#define	CH4_PAP_CURADDR                   CH4_CLR_USEADDR+3
+#define	CH4_PBP_CURADDR                   CH4_PAP_CURADDR+3
+#define	CH4_PCP_CURADDR                   CH4_PBP_CURADDR+3
+#define	CH4_PAN_CURADDR                   CH4_PCP_CURADDR+3
+#define	CH4_PBN_CURADDR                   CH4_PAN_CURADDR+3
+#define	CH4_PCN_CURADDR                   CH4_PBN_CURADDR+3
+#define	CH4_PTD_CURADDR                   CH4_PCN_CURADDR+3
+#define	CH4_CLR_CURADDR                   CH4_PTD_CURADDR+3
+
+#define	CH5_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH5_PBP_USEADDR                   CH5_PAP_USEADDR+3
+#define	CH5_PCP_USEADDR                   CH5_PBP_USEADDR+3
+#define	CH5_PAN_USEADDR                   CH5_PCP_USEADDR+3
+#define	CH5_PBN_USEADDR                   CH5_PAN_USEADDR+3
+#define	CH5_PCN_USEADDR                   CH5_PBN_USEADDR+3
+#define	CH5_PTD_USEADDR                   CH5_PCN_USEADDR+3
+#define	CH5_CLR_USEADDR                   CH5_PTD_USEADDR+3
+
+#define	CH5_PAP_CURADDR                   CH5_CLR_USEADDR+3
+#define	CH5_PBP_CURADDR                   CH5_PAP_CURADDR+3
+#define	CH5_PCP_CURADDR                   CH5_PBP_CURADDR+3
+#define	CH5_PAN_CURADDR                   CH5_PCP_CURADDR+3
+#define	CH5_PBN_CURADDR                   CH5_PAN_CURADDR+3
+#define	CH5_PCN_CURADDR                   CH5_PBN_CURADDR+3
+#define	CH5_PTD_CURADDR                   CH5_PCN_CURADDR+3
+#define	CH5_CLR_CURADDR                   CH5_PTD_CURADDR+3
+
+#define	CH6_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH6_PBP_USEADDR                   CH6_PAP_USEADDR+3
+#define	CH6_PCP_USEADDR                   CH6_PBP_USEADDR+3
+#define	CH6_PAN_USEADDR                   CH6_PCP_USEADDR+3
+#define	CH6_PBN_USEADDR                   CH6_PAN_USEADDR+3
+#define	CH6_PCN_USEADDR                   CH6_PBN_USEADDR+3
+#define	CH6_PTD_USEADDR                   CH6_PCN_USEADDR+3
+#define	CH6_CLR_USEADDR                   CH6_PTD_USEADDR+3
+
+#define	CH6_PAP_CURADDR                   CH6_CLR_USEADDR+3
+#define	CH6_PBP_CURADDR                   CH6_PAP_CURADDR+3
+#define	CH6_PCP_CURADDR                   CH6_PBP_CURADDR+3
+#define	CH6_PAN_CURADDR                   CH6_PCP_CURADDR+3
+#define	CH6_PBN_CURADDR                   CH6_PAN_CURADDR+3
+#define	CH6_PCN_CURADDR                   CH6_PBN_CURADDR+3
+#define	CH6_PTD_CURADDR                   CH6_PCN_CURADDR+3
+#define	CH6_CLR_CURADDR                   CH6_PTD_CURADDR+3
+
+#define	CH7_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH7_PBP_USEADDR                   CH7_PAP_USEADDR+3
+#define	CH7_PCP_USEADDR                   CH7_PBP_USEADDR+3
+#define	CH7_PAN_USEADDR                   CH7_PCP_USEADDR+3
+#define	CH7_PBN_USEADDR                   CH7_PAN_USEADDR+3
+#define	CH7_PCN_USEADDR                   CH7_PBN_USEADDR+3
+#define	CH7_PTD_USEADDR                   CH7_PCN_USEADDR+3
+#define	CH7_CLR_USEADDR                   CH7_PTD_USEADDR+3
+
+#define	CH7_PAP_CURADDR                   CH7_CLR_USEADDR+3
+#define	CH7_PBP_CURADDR                   CH7_PAP_CURADDR+3
+#define	CH7_PCP_CURADDR                   CH7_PBP_CURADDR+3
+#define	CH7_PAN_CURADDR                   CH7_PCP_CURADDR+3
+#define	CH7_PBN_CURADDR                   CH7_PAN_CURADDR+3
+#define	CH7_PCN_CURADDR                   CH7_PBN_CURADDR+3
+#define	CH7_PTD_CURADDR                   CH7_PCN_CURADDR+3
+#define	CH7_CLR_CURADDR                   CH7_PTD_CURADDR+3
 
 #define ErrorRegAddr			 E2P_PGLEN-0x800
 
@@ -204,59 +386,6 @@
 
 #define RAND_RECORD_NUM                   3
 #define RAND_RECORD_SIZE                (RAND_RECORD_NUM*E2ONE_RECORD_SIZE)
-
-#define MONTH_DATA_ADDR                  0
-#define RAND_DATA_ADDR                   0x1680
-
-#define CH0_PAN_EVT_ADDR                RAND_DATA_ADDR+0x05A0
-#define CH0_PBN_EVT_ADDR                CH0_PAN_EVT_ADDR+840
-#define CH0_PCN_EVT_ADDR                CH0_PBN_EVT_ADDR+840
-#define CH0_PTD_EVT_ADDR                CH0_PCN_EVT_ADDR+840
-#define CH0_CLR_ADDR                    CH0_PTD_EVT_ADDR+440
-
-#define CH1_PAN_EVT_ADDR                CH0_CLR_ADDR+440
-#define CH1_PBN_EVT_ADDR                CH1_PAN_EVT_ADDR+840
-#define CH1_PCN_EVT_ADDR                CH1_PBN_EVT_ADDR+840
-#define CH1_PTD_EVT_ADDR                CH1_PCN_EVT_ADDR+840
-#define CH1_CLR_ADDR                    CH1_PTD_EVT_ADDR+440
-
-#define CH2_PAN_EVT_ADDR                CH1_CLR_ADDR+440
-#define CH2_PBN_EVT_ADDR                CH2_PAN_EVT_ADDR+840
-#define CH2_PCN_EVT_ADDR                CH2_PBN_EVT_ADDR+840
-#define CH2_PTD_EVT_ADDR                CH2_PCN_EVT_ADDR+840
-#define CH2_CLR_ADDR                    CH2_PTD_EVT_ADDR+440
-
-#define CH3_PAN_EVT_ADDR                CH2_CLR_ADDR+440
-#define CH3_PBN_EVT_ADDR                CH3_PAN_EVT_ADDR+840
-#define CH3_PCN_EVT_ADDR                CH3_PBN_EVT_ADDR+840
-#define CH3_PTD_EVT_ADDR                CH3_PCN_EVT_ADDR+840
-#define CH3_CLR_ADDR                    CH3_PTD_EVT_ADDR+440
-
-#define CH4_PAN_EVT_ADDR                CH3_CLR_ADDR+440
-#define CH4_PBN_EVT_ADDR                CH4_PAN_EVT_ADDR+840
-#define CH4_PCN_EVT_ADDR                CH4_PBN_EVT_ADDR+840
-#define CH4_PTD_EVT_ADDR                CH4_PCN_EVT_ADDR+840
-#define CH4_CLR_ADDR                    CH4_PTD_EVT_ADDR+440
-
-#define CH5_PAN_EVT_ADDR                CH4_CLR_ADDR+440
-#define CH5_PBN_EVT_ADDR                CH5_PAN_EVT_ADDR+840
-#define CH5_PCN_EVT_ADDR                CH5_PBN_EVT_ADDR+840
-#define CH5_PTD_EVT_ADDR                CH5_PCN_EVT_ADDR+840
-#define CH5_CLR_ADDR                    CH5_PTD_EVT_ADDR+440
-
-#define CH6_PAN_EVT_ADDR                CH5_CLR_ADDR+440
-#define CH6_PBN_EVT_ADDR                CH6_PAN_EVT_ADDR+840
-#define CH6_PCN_EVT_ADDR                CH6_PBN_EVT_ADDR+840
-#define CH6_PTD_EVT_ADDR                CH6_PCN_EVT_ADDR+840
-#define CH6_CLR_ADDR                    CH6_PTD_EVT_ADDR+440
-
-#define CH7_PAN_EVT_ADDR                CH6_CLR_ADDR+440
-#define CH7_PBN_EVT_ADDR                CH7_PAN_EVT_ADDR+840
-#define CH7_PCN_EVT_ADDR                CH7_PBN_EVT_ADDR+840
-#define CH7_PTD_EVT_ADDR                CH7_PCN_EVT_ADDR+840
-#define CH7_CLR_ADDR                    CH7_PTD_EVT_ADDR+440
-
-#define E2END_DATA_ADDR                 (CH7_CLR_ADDR+440)
 
 
 #define ONE_RECORD_LEN                   54

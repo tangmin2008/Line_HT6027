@@ -694,12 +694,7 @@ void DayInc( unsigned char* Data )
 #define	SPD_344K		6
 #define	SPD_172K		7
 #define	SPD_MCU			SPD_11000K
-typedef signed long long INT64S;
-typedef unsigned int INT32U;
-typedef signed int INT32S;
-typedef unsigned char INT8U;
-typedef signed short INT16S;
-typedef unsigned short INT16U;
+
 
 /*******************************************************************************
 功能描述：	单字节BCD码转HEX码
@@ -1145,35 +1140,17 @@ void Prog_InfoData(INT32U *info)
 
 unsigned char NCom_WriteCPU_RTC(unsigned char* ComBuf )
 {
-	unsigned char* WriteBufAds;
-	unsigned long LComID;
-
-	RAM_Write( (unsigned char*)&LComID, ComBuf, 4 );		//新国网
-
-	WriteBufAds =  ComBuf + 12;
-//	if( LComID == 0x04CC0300 )
-	//if(( LComID == 0x04CC0300 )&&( Para.RRTC_OutMode == 0x01 ))				//17.12.04
-	{
-		if (TRUE == Sample_Error(WriteBufAds))											
-		{
-			Load_InfoData();
-			return 0;
-		}
-		else return 0;	
-	}
-//	else if(  LComID == 0x04CC0304 )
-	//else if(( LComID == 0x04CC0304 )&&( Para.RRTC_OutMode == 0x01 ))		//17.12.04
-	//{
-	//	RAM_Fill( WriteBufAds, 6 );
-	//	E2P_WData( ID_TpsCode, WriteBufAds, 6 );										
-	//	return 0;
-	//}
-	return 0;
-	//return RS_State_PswE;	
+  unsigned char* WriteBufAds;
+  WriteBufAds =  ComBuf;
+  
+  if (TRUE == Sample_Error(WriteBufAds))											
+  {
+    Load_InfoData();
+    return 0;
+  }
+  else return 1;	
+  return 1;
 }
-
-
-
 #endif
 
 

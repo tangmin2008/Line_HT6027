@@ -518,6 +518,22 @@ void Iec101LinkRecv(void)
       }
       return;
     }
+    if(lpIEC101->byRecvBuf[0]==0x7E)
+    {
+      Count = 0;
+      for(i=0;i<5;++i)
+        Count += lpIEC101->byRecvBuf[i];
+      if(lpIEC101->wRecvNum>5)
+      {
+        if(lpIEC101->byRecvBuf[5] == Count)
+        {  
+          lpIEC101->byRecvBuf[1]=NCom_WriteCPU_RTC(lpIEC101->byRecvBuf+1);
+          Serial_Write(IEC101_PORT,lpIEC101->byRecvBuf,2);
+        }
+        lpIEC101->wRecvNum = 0;
+      }
+      return;
+    }
     for(i=0;i<lpIEC101->wRecvNum;++i)
     {  
       if(lpIEC101->byRecvBuf[i]!=F_STARTCODE && lpIEC101->byRecvBuf[i]!=V_STARTCODE)

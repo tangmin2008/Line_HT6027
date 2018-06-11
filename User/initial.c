@@ -481,7 +481,7 @@ void VarInit(void)
   //MSpec.RMeterConst = 6400;
   //MSpec.R7022E_HFConst = 63;
   MSpec.RBaseCurrent = 1000;
-  MSpec.RPW00002Ib = 4600;
+  MSpec.RPW00002Ib = 1000;
 }
 
 void HW_ON( void )

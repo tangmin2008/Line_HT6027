@@ -725,11 +725,11 @@ void main(void)
         InitPara5();
         Serial_Open(2,9600,8,UartParity_Disable);
 	InitPara6();
-        flash_id[0]=0x94;
-        flash_id[1]=0x09;
-        flash_id[2]=0x00;
-        flash_id[3]=0x80;
-        Sample_Error(flash_id);
+//        flash_id[0]=0x80;
+//        flash_id[1]=0x10;
+//        flash_id[2]=0x00;
+//        flash_id[3]=0x00;
+//        Sample_Error(flash_id);
         Load_InfoData();
        // Serial_Write(2,"Start Debug\r\n",13);   
         InitIEC101Prot();

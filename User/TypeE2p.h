@@ -134,11 +134,11 @@
 #define	ClockAdj			CDay_TrendTime7+4	//（2）//结束地址:0x088D
 #define ID_TpsCode                      ClockAdj+4
 //事件参数均改为HEX码
-#define	EPhFail_Valve		          ClockAdj+7		          //失压起始阀值(3)			yyy.y V 
-#define AT7022ChkSum		          EPhFail_Valve+7		//7022校表数据校验和(4)		//ATChk		//V1000
-#define AT7022ChkSum2		          AT7022ChkSum+6		//7022e校表数据校验和2(4)		//ATChk		//V1000
+#define	EPhFail_Valve		        ID_TpsCode+7		//失压起始阀值(3)			yyy.y V 
+#define AT7022ChkSum		        EPhFail_Valve+7		//7022校表数据校验和(4)		//ATChk		//V1000
+#define AT7022ChkSum2		        AT7022ChkSum+6		//7022e校表数据校验和2(4)		//ATChk		//V1000
 
-#define IEC_LINK_ADDR                     ClockAdj+6      //2
+#define IEC_LINK_ADDR                     AT7022ChkSum2+6      //2
 #define IEC_COMM_ADDR                     IEC_LINK_ADDR+4  //2
 #define LOAD0_USEADDR                     IEC_COMM_ADDR+3  //负荷
 #define LOAD0_CURADDR                     LOAD0_USEADDR+3

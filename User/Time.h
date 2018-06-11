@@ -44,4 +44,7 @@ void Datetimes_Add_TI( unsigned char* Dest, unsigned char* Source, unsigned char
 
 short Check_date_time_s( unsigned char* Source );	//17.04.17
 void DayInc( unsigned char* Data );
+unsigned char  Sample_Error(INT8U *err);
+void Load_InfoData(void);
+
 

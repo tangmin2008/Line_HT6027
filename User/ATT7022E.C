@@ -876,7 +876,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
   }	
   
   A0001Ib = MSpec.RBaseCurrent / 1000;	//新国网		//13.08.30
-  A0002Ib = MSpec.RBaseCurrent / 500;		//新国网		//13.08.30
+  A0002Ib = MSpec.RBaseCurrent / 1000;		//新国网		//13.08.30
   PS32 = MSpec.RMeterConst / 100;			//新国网		//13.08.30	
   HFConstHL = MSpec.R7022E_HFConst;		//新国网		//13.08.30	
   PW00002Ib = MSpec.RPW00002Ib;			//新国网		//13.08.30
@@ -1058,7 +1058,7 @@ short Read_ATTAmper( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
 	
 	LValue = 0;
 
-	A0002Ib = MSpec.RBaseCurrent / 500;	//新国网		//13.08.30
+	A0002Ib = MSpec.RBaseCurrent / 1000;	//新国网		//13.08.30
 	Temp2 = ATT7022RdReg( Cmd, Data ,Devads);		//11.08.03	
 	if(( *(Data +2) & 0x80 ) == 0) i = 0;
 	else    {

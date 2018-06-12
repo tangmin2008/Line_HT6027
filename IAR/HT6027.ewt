@@ -292,6 +292,9 @@
     <file>
       <name>$PROJ_DIR$\..\User\Time.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\User\xmodem.c</name>
+    </file>
   </group>
 </project>
 

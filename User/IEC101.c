@@ -280,8 +280,8 @@ unsigned char s_Devtype[]="DTU";
 unsigned char s_Operation[]="N/A";
 unsigned char s_Manufacture[]="¾æ»ª";
 unsigned char s_Hardwarever[]="A";
-unsigned char s_Firmwarever[]="00.01";
-unsigned char s_FirmwareCrc[]="0x1234";
+unsigned char s_Firmwarever[]="01.01";
+unsigned char s_FirmwareCrc[]="0x7777";
 unsigned char s_Protocolver[]="V1.000";
 unsigned char s_Model[]="JH4000";
 unsigned char s_Id[]="201710280001";
@@ -530,6 +530,27 @@ void Iec101LinkRecv(void)
           lpIEC101->byRecvBuf[1]=NCom_WriteCPU_RTC(lpIEC101->byRecvBuf+1);
           Serial_Write(IEC101_PORT,lpIEC101->byRecvBuf,2);
         }
+        lpIEC101->wRecvNum = 0;
+      }
+      return;
+    }
+    if(lpIEC101->byRecvBuf[0]==0x7D)
+    {
+      Count = 0;
+      for(i=0;i<5;++i)
+        Count += lpIEC101->byRecvBuf[i];
+      if(lpIEC101->wRecvNum>5)
+      {
+        
+        if(lpIEC101->byRecvBuf[1] == 0xaa && lpIEC101->byRecvBuf[2] == 0x55)
+        {
+          Flag.Power |=F_IrmsCheck;
+        }
+        if(lpIEC101->byRecvBuf[1] == 0x55 && lpIEC101->byRecvBuf[2] == 0xaa)
+        {
+          NVIC_SystemReset();
+        }
+        Serial_Write(IEC101_PORT,lpIEC101->byRecvBuf,lpIEC101->wRecvNum);
         lpIEC101->wRecvNum = 0;
       }
       return;

@@ -716,7 +716,7 @@ extern	const LASTSUNDAY LastSunTab[36];
 //#endif
 //#else
 //#endif
-
+extern PUSHSTATE Push_state[MAX_CH_NUM];
 extern  const unsigned char LCDRollOrderTab[21];
 extern  const short DayTab[13];
 //extern  const EXECUTETAB ExecuteTab[10];

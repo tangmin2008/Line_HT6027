@@ -113,6 +113,13 @@ struct IEC101_STRUCT
   struct APP_STRUCT PSendFrame;
   struct APP_STRUCT PRecvFrame;
   struct REAPP_STRUCT PReAppLayer; 
+  u8 pa_num;
+  u8 pb_num;
+  u8 pc_num;
+  u8 pt_num;
+  u8 pce_num;
+  u8 pcc_num;
+  u8 ptt_num;
 };
 
 /***************************************************************************

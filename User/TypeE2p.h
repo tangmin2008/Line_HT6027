@@ -228,7 +228,7 @@
 #define MOND7_USEADDR                     SHRP7_CURADDR+3 //øº∫À»’
 #define MOND7_CURADDR                     MOND7_USEADDR+3
 
-#define	CH0_PAP_USEADDR                   MOND0_CURADDR+3
+#define	CH0_PAP_USEADDR                   MOND7_CURADDR+3
 #define	CH0_PBP_USEADDR                   CH0_PAP_USEADDR+3
 #define	CH0_PCP_USEADDR                   CH0_PBP_USEADDR+3
 #define	CH0_PAN_USEADDR                   CH0_PCP_USEADDR+3
@@ -267,7 +267,7 @@
 #define	CH1_PTD_CURADDR                   CH1_PCN_CURADDR+3
 #define	CH1_CLR_CURADDR                   CH1_PTD_CURADDR+3
 
-#define	CH2_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH2_PAP_USEADDR                   CH1_CLR_CURADDR+3
 #define	CH2_PBP_USEADDR                   CH2_PAP_USEADDR+3
 #define	CH2_PCP_USEADDR                   CH2_PBP_USEADDR+3
 #define	CH2_PAN_USEADDR                   CH2_PCP_USEADDR+3
@@ -285,7 +285,7 @@
 #define	CH2_PTD_CURADDR                   CH2_PCN_CURADDR+3
 #define	CH2_CLR_CURADDR                   CH2_PTD_CURADDR+3
 
-#define	CH3_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH3_PAP_USEADDR                   CH2_CLR_CURADDR+3
 #define	CH3_PBP_USEADDR                   CH3_PAP_USEADDR+3
 #define	CH3_PCP_USEADDR                   CH3_PBP_USEADDR+3
 #define	CH3_PAN_USEADDR                   CH3_PCP_USEADDR+3
@@ -303,7 +303,7 @@
 #define	CH3_PTD_CURADDR                   CH3_PCN_CURADDR+3
 #define	CH3_CLR_CURADDR                   CH3_PTD_CURADDR+3
 
-#define	CH4_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH4_PAP_USEADDR                   CH3_CLR_CURADDR+3
 #define	CH4_PBP_USEADDR                   CH4_PAP_USEADDR+3
 #define	CH4_PCP_USEADDR                   CH4_PBP_USEADDR+3
 #define	CH4_PAN_USEADDR                   CH4_PCP_USEADDR+3
@@ -321,7 +321,7 @@
 #define	CH4_PTD_CURADDR                   CH4_PCN_CURADDR+3
 #define	CH4_CLR_CURADDR                   CH4_PTD_CURADDR+3
 
-#define	CH5_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH5_PAP_USEADDR                   CH4_CLR_CURADDR+3
 #define	CH5_PBP_USEADDR                   CH5_PAP_USEADDR+3
 #define	CH5_PCP_USEADDR                   CH5_PBP_USEADDR+3
 #define	CH5_PAN_USEADDR                   CH5_PCP_USEADDR+3
@@ -339,7 +339,7 @@
 #define	CH5_PTD_CURADDR                   CH5_PCN_CURADDR+3
 #define	CH5_CLR_CURADDR                   CH5_PTD_CURADDR+3
 
-#define	CH6_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH6_PAP_USEADDR                   CH5_CLR_CURADDR+3
 #define	CH6_PBP_USEADDR                   CH6_PAP_USEADDR+3
 #define	CH6_PCP_USEADDR                   CH6_PBP_USEADDR+3
 #define	CH6_PAN_USEADDR                   CH6_PCP_USEADDR+3
@@ -357,7 +357,7 @@
 #define	CH6_PTD_CURADDR                   CH6_PCN_CURADDR+3
 #define	CH6_CLR_CURADDR                   CH6_PTD_CURADDR+3
 
-#define	CH7_PAP_USEADDR                   MOND1_CURADDR+3
+#define	CH7_PAP_USEADDR                   CH6_CLR_CURADDR+3
 #define	CH7_PBP_USEADDR                   CH7_PAP_USEADDR+3
 #define	CH7_PCP_USEADDR                   CH7_PBP_USEADDR+3
 #define	CH7_PAN_USEADDR                   CH7_PCP_USEADDR+3
@@ -374,6 +374,25 @@
 #define	CH7_PCN_CURADDR                   CH7_PBN_CURADDR+3
 #define	CH7_PTD_CURADDR                   CH7_PCN_CURADDR+3
 #define	CH7_CLR_CURADDR                   CH7_PTD_CURADDR+3
+
+#define	TIME_CURADDR                      CH7_CLR_CURADDR+3
+#define	TIME_USEADDR                      TIME_CURADDR+3
+#define	CEVENT0_USEADDR                   TIME_USEADDR+3
+#define	CEVENT0_CURADDR                   CEVENT0_USEADDR+3
+#define	CEVENT1_USEADDR                   CEVENT0_CURADDR+3
+#define	CEVENT1_CURADDR                   CEVENT1_USEADDR+3
+#define	CEVENT2_USEADDR                   CEVENT1_CURADDR+3
+#define	CEVENT2_CURADDR                   CEVENT2_USEADDR+3
+#define	CEVENT3_USEADDR                   CEVENT2_CURADDR+3
+#define	CEVENT3_CURADDR                   CEVENT3_USEADDR+3
+#define	CEVENT4_USEADDR                   CEVENT3_CURADDR+3
+#define	CEVENT4_CURADDR                   CEVENT4_USEADDR+3
+#define	CEVENT5_USEADDR                   CEVENT4_CURADDR+3
+#define	CEVENT5_CURADDR                   CEVENT5_USEADDR+3
+#define	CEVENT6_USEADDR                   CEVENT5_CURADDR+3
+#define	CEVENT6_CURADDR                   CEVENT6_USEADDR+3
+#define	CEVENT7_USEADDR                   CEVENT6_CURADDR+3
+#define	CEVENT7_CURADDR                   CEVENT7_USEADDR+3
 
 #define ErrorRegAddr			 E2P_PGLEN-0x800
 

@@ -215,6 +215,7 @@ short Save_Data(unsigned char *Time_buf)
   memcpy(tmp_buf,Time_buf,6);
   for(i=0;i<MAX_CH_NUM;++i)
   {
+    Insert_Push(LOAR_TYPE,i);
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
     LoadRecord(LOAD0_USEADDR+i*30,tmp_buf);
   }
@@ -251,7 +252,6 @@ short Save_DayData(unsigned char *Time_buf)
   memcpy(tmp_buf,Time_buf,6);  
   for(i=0;i<MAX_CH_NUM;++i)
   {
-    Insert_Push(LOAR_TYPE,i);
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
     LoadRecord(FRZD0_USEADDR+i*30,tmp_buf);
   }
@@ -905,8 +905,8 @@ void main(void)
         PwrOnInit();	
         InitPara();			
         InitPara5();
-        Serial_Open(2,9600,8,UartParity_Disable);
-        //Serial_Open(2,9600,8,UartParity_EVEN);
+       Serial_Open(2,9600,8,UartParity_Disable);
+       //Serial_Open(2,9600,8,UartParity_EVEN);
 	InitPara6();
 //        flash_id[0]=0x80;
 //        flash_id[1]=0x10;

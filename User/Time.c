@@ -773,16 +773,24 @@ static const INT16U TAB_DFx_waibu[10] =
 	0x0000, 0x04B0,  
 };
 
-static const INT16U TAB_DFx_waibu_New[10] = 		//18.04.28
+//static const INT16U TAB_DFx_waibu_New[10] = 		//18.04.28
+//{
+//	0x0000, 0x0000,
+//	0x007F, 0xDA4B,
+//	0x007E, 0xD9AC,
+//	0x0000, 0x4A2E,
+//	0x007F, 0xFC90,  
+//};
+static const INT16U TAB_DFx_waibu_New[10] =  //18.07.05
 {
-	0x0000, 0x0000,
-	0x007F, 0xDA4B,
-	0x007E, 0xD9AC,
-	0x0000, 0x4A2E,
-	0x007F, 0xFC90,  
+  0x007F,0xFBFB,
+  0x007f,0xDA4C,
+  0x007E,0xc82f,
+  0x007f,0xffff,
+  0x007f,0xffff,
 };
 
-//static const INT16U TAB_DFx_neibu[10] = 
+//static INT16U TAB_DFx_neibu[16] = 
 //{
 //	0x0000, 0x0705,															//系数A, 常数项
 //	0x007F, 0xE80D,															//系数B, 一次项
@@ -815,6 +823,7 @@ void Load_InfoData(void)
 	for (i=0; i<14; i++)
 	{
 		chksum += HT_INFO->DataArry[i];
+//                TAB_DFx_neibu[i] = HT_INFO->DataArry[i];
 	}
 	if (chksum == HT_INFO->DataArry[14])		//已设置
 	{

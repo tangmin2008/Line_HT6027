@@ -164,8 +164,8 @@ int xmodemReceive()
         case EOT:
           flushinput();
           port_outbyte(ACK);
-          DataFlash_Write(0x100000,&len,4);
-          DataFlash_Write(0x100004,&Crc32_check,4);
+          DataFlash_Write(0x200000,&len,4);
+          DataFlash_Write(0x200004,&Crc32_check,4);
           Flag.Power &= ~F_IrmsCheck;
           return len; /* normal end */
         case CAN:
@@ -214,7 +214,7 @@ int xmodemReceive()
         count = bufsz;
         if (count > 0) 
         {
-          DataFlash_Write(0x100000+4096+len,&xbuff[3],count);
+          DataFlash_Write(0x200000+4096+len,&xbuff[3],count);
           Crc32_check = GenerateCRC32(Crc32_check, &xbuff[3],count);
           len += count;
         }

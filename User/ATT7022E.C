@@ -734,10 +734,11 @@ unsigned char ComAdjWrite(unsigned char* ComBuf ,unsigned short Devads)
 //#else
 //  if((( HT_GPIOD->PTDAT & GPIOD_SETEN ) != 0 )||((SM.CalibCount != CALIBCOUNT1)&&(Temp != HFDouble))  ) 
 //#endif
-//  {
-//    *ComBuf = 0xFF;
-//    return RS_State_IVData;
-//  }
+  if(SM.CalibCount != CALIBCOUNT1)
+  {
+   *ComBuf = 0xFF;
+   return RS_State_IVData;
+  }
   if((( Temp >= PgainA )&&(Temp <= PgainC))||(( Temp >= PhsregA0 )&&(Temp <= PhsregC1))
 #if ( NEW7022E == YesCheck )
      ||(( Temp >= PhsregA2 )&&(Temp <= PhsregC2))||( Temp == Iregion1 )||( Temp == TPSoffset )

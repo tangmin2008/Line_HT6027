@@ -766,7 +766,7 @@ void Delay_mSec(INT8U mSec)
 
 static const INT16U TAB_DFx_waibu[10] = 
 {
-	0x0000, 0x0000,
+	0x007f, 0xFed3,
 	0x007F, 0xD64c,
 	0x007E, 0xD708,
 	0x0000, 0x546E,
@@ -783,11 +783,11 @@ static const INT16U TAB_DFx_waibu[10] =
 //};
 static const INT16U TAB_DFx_waibu_New[10] =  //18.07.05
 {
-  0x007F,0xFBFB,
-  0x007f,0xDA4C,
-  0x007E,0xc82f,
-  0x007f,0xffff,
-  0x007f,0xffff,
+  0x007F,0xFed3,
+  0x007f,0xD64C,
+  0x007E,0xd708,
+  0x0000,0x546e,
+  0x0000,0x04b0,
 };
 
 //static INT16U TAB_DFx_neibu[16] = 
@@ -823,7 +823,7 @@ void Load_InfoData(void)
 	for (i=0; i<14; i++)
 	{
 		chksum += HT_INFO->DataArry[i];
-//                TAB_DFx_neibu[i] = HT_INFO->DataArry[i];
+              //  TAB_DFx_neibu[i] = HT_INFO->DataArry[i];
 	}
 	if (chksum == HT_INFO->DataArry[14])		//“—…Ë÷√
 	{

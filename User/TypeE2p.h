@@ -394,6 +394,8 @@
 #define	CEVENT7_USEADDR                   CEVENT6_CURADDR+3
 #define	CEVENT7_CURADDR                   CEVENT7_USEADDR+3
 
+#define	ID_ADDR                           CEVENT7_CURADDR+3
+
 #define ErrorRegAddr			 E2P_PGLEN-0x800
 
 #define E2P_PGLEN		         0x1000//0x0B00//0xAAA//0x1554		//数据备份页长度

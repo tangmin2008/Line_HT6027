@@ -7,7 +7,7 @@ void udelay(int us)
     int i,j;
     for(i=0;i<us;i++)
     {
-      for(j=0;j<10;++j)
+      for(j=0;j<22;++j)
       {
         __NOP();
       }
@@ -84,7 +84,7 @@ int16_t Serial_Write(uint8_t port,uint8_t *buf,uint16_t len)
 	}
         port=0;
         while(m_sserial[port].send_len)
-         udelay(100);// HT_FreeDog();
+         udelay(1000);// HT_FreeDog();
 	j=0;
         pUart->UARTCON &=~ (UART_UARTCON_RXIE + UART_UARTCON_RXEN);
         pUart->UARTCON |= (UART_UARTCON_TXIE + UART_UARTCON_TXEN);

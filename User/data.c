@@ -17,8 +17,8 @@ CLK	        Clk;
 FLAG		Flag;
 SRAM 		SM;
 METERSPEC	MSpec;				//电表规格		//新国网		//13.08.30
-REAL            Real_Data[8];
-ENERGY          Energy_Data[8];
+REAL            Real_Data[MAX_CH_NUM];
+ENERGY          Energy_Data[MAX_CH_NUM];
 DISKEY		Disk;
 INTPULSE	ECInt;
 ECRAM           EC;
@@ -323,6 +323,7 @@ const ECRg ECRgTab[ECUnitNum] =
         CMon_EC_Q32,  FRCMon_EC_Qn7, &Energy_Data[3].Q2, &ECP.PL_CumQ[3][1], &ECP.PL_ChkQ[3][1], 0x01,
         CMon_EC_Q33,  FRCMon_EC_Qn7, &Energy_Data[3].Q3, &ECP.PL_CumQ[3][2], &ECP.PL_ChkQ[3][2], 0x01,
         CMon_EC_Q34,  FRCMon_EC_Qn7, &Energy_Data[3].Q4, &ECP.PL_CumQ[3][3], &ECP.PL_ChkQ[3][3], 0x01,
+#if    MAX_CH_NUM>4        
         CMon_EC_Pp4,  FRCMon_EC_Pp4, &Energy_Data[4].Pp, &ECP.PL_CumPp[4], &ECP.PL_ChkPp[4], 0x01,			//当前有功正向电量
 	CMon_EC_Pn4,  FRCMon_EC_Pn4, &Energy_Data[4].Pn, &ECP.PL_CumPn[4], &ECP.PL_ChkPn[4], 0x01,			//当前有功反向电量
         CMon_EC_Qp4,  FRCMon_EC_Qp4, &Energy_Data[4].Qp, &ECP.PL_CumQp[4], &ECP.PL_ChkQp[4], 0x01,			//当前无功正向电量
@@ -331,6 +332,8 @@ const ECRg ECRgTab[ECUnitNum] =
         CMon_EC_Q42,  FRCMon_EC_Qn7, &Energy_Data[4].Q2, &ECP.PL_CumQ[4][1], &ECP.PL_ChkQ[4][1], 0x01,
         CMon_EC_Q43,  FRCMon_EC_Qn7, &Energy_Data[4].Q3, &ECP.PL_CumQ[4][2], &ECP.PL_ChkQ[4][2], 0x01,
         CMon_EC_Q44,  FRCMon_EC_Qn7, &Energy_Data[4].Q4, &ECP.PL_CumQ[4][3], &ECP.PL_ChkQ[4][3], 0x01,
+#endif        
+#if    MAX_CH_NUM>5        
         CMon_EC_Pp5,  FRCMon_EC_Pp5, &Energy_Data[5].Pp, &ECP.PL_CumPp[5], &ECP.PL_ChkPp[5], 0x01,			//当前有功正向电量
 	CMon_EC_Pn5,  FRCMon_EC_Pn5, &Energy_Data[5].Pn, &ECP.PL_CumPn[5], &ECP.PL_ChkPn[5], 0x01,			//当前有功反向电量
         CMon_EC_Qp5,  FRCMon_EC_Qp5, &Energy_Data[5].Qp, &ECP.PL_CumQp[5], &ECP.PL_ChkQp[5], 0x01,			//当前无功正向电量
@@ -339,6 +342,8 @@ const ECRg ECRgTab[ECUnitNum] =
         CMon_EC_Q52,  FRCMon_EC_Qn7, &Energy_Data[5].Q2, &ECP.PL_CumQ[5][1], &ECP.PL_ChkQ[5][1], 0x01,
         CMon_EC_Q53,  FRCMon_EC_Qn7, &Energy_Data[5].Q3, &ECP.PL_CumQ[5][2], &ECP.PL_ChkQ[5][2], 0x01,
         CMon_EC_Q54,  FRCMon_EC_Qn7, &Energy_Data[5].Q4, &ECP.PL_CumQ[5][3], &ECP.PL_ChkQ[5][3], 0x01,
+#endif        
+#if     MAX_CH_NUM>6        
         CMon_EC_Pp6,  FRCMon_EC_Pp6, &Energy_Data[6].Pp, &ECP.PL_CumPp[6], &ECP.PL_ChkPp[6], 0x01,			//当前有功正向电量
 	CMon_EC_Pn6,  FRCMon_EC_Pn6, &Energy_Data[6].Pn, &ECP.PL_CumPn[6], &ECP.PL_ChkPn[6], 0x01,			//当前有功反向电量
         CMon_EC_Qp6,  FRCMon_EC_Qp6, &Energy_Data[6].Qp, &ECP.PL_CumQp[6], &ECP.PL_ChkQp[6], 0x01,			//当前无功正向电量
@@ -347,6 +352,8 @@ const ECRg ECRgTab[ECUnitNum] =
         CMon_EC_Q62,  FRCMon_EC_Qn7, &Energy_Data[6].Q2, &ECP.PL_CumQ[6][1], &ECP.PL_ChkQ[6][1], 0x01,
         CMon_EC_Q63,  FRCMon_EC_Qn7, &Energy_Data[6].Q3, &ECP.PL_CumQ[6][2], &ECP.PL_ChkQ[6][2], 0x01,
         CMon_EC_Q64,  FRCMon_EC_Qn7, &Energy_Data[6].Q4, &ECP.PL_CumQ[6][3], &ECP.PL_ChkQ[6][3], 0x01,
+#endif        
+#if     MAX_CH_NUM>7        
         CMon_EC_Pp7,  FRCMon_EC_Pp7, &Energy_Data[7].Pp, &ECP.PL_CumPp[7], &ECP.PL_ChkPp[7], 0x01,			//当前有功正向电量
 	CMon_EC_Pn7,  FRCMon_EC_Pn7, &Energy_Data[7].Pn, &ECP.PL_CumPn[7], &ECP.PL_ChkPn[7], 0x01,			//当前有功反向电量
         CMon_EC_Qp7,  FRCMon_EC_Qp7, &Energy_Data[7].Qp, &ECP.PL_CumQp[7], &ECP.PL_ChkQp[7], 0x01,			//当前无功正向电量
@@ -355,6 +362,7 @@ const ECRg ECRgTab[ECUnitNum] =
         CMon_EC_Q72,  FRCMon_EC_Qn7, &Energy_Data[7].Q2, &ECP.PL_CumQ[7][1], &ECP.PL_ChkQ[7][1], 0x01,
         CMon_EC_Q73,  FRCMon_EC_Qn7, &Energy_Data[7].Q3, &ECP.PL_CumQ[7][2], &ECP.PL_ChkQ[7][2], 0x01,
         CMon_EC_Q74,  FRCMon_EC_Qn7, &Energy_Data[7].Q4, &ECP.PL_CumQ[7][3], &ECP.PL_ChkQ[7][3], 0x01,
+#endif        
 };
 
 const PROFILETAB ProfileTab[] =

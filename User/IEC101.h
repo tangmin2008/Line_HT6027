@@ -67,12 +67,14 @@ struct IEC101_STRUCT
   u32 FtuSccReset;
   u32 byFrameIntval;
   u32 wPSendNum;
+  u32 pfile_ptr;
   u32 PWindow;
   u32 PWinTimer;
   u32 OrgnizeFrame;
   u8  byRecvBuf[256];
   u32 wRecvLen;
   u8 PReMsgType;
+  u8 PReMsgType_bak;
   u8 byReason;
   u32 byPSGenStep;
   u8 frameno;
@@ -131,6 +133,7 @@ struct IEC101_STRUCT
 //启动方向 链路层功能码定义
 #define RESET_LINK		0		// 复位远方链路
 #define RESET_SESSION		1     		// 复位远动终端的用户进程
+#define CALL_LINK_2		2
 #define TRAN_CONFIRM_DATA       3  
 #define TRAN_DATA		4	      // 传送数据/无回答帧
 #define CALL_ACD		8	      		// 响应帧应说明访问要求

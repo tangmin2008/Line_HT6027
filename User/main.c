@@ -215,7 +215,10 @@ short Save_Data(unsigned char *Time_buf)
   memcpy(tmp_buf,Time_buf,6);
   for(i=0;i<MAX_CH_NUM;++i)
   {
-    Insert_Push(LOAR_TYPE,i);
+    if(SM.CalibCount != CALIBCOUNT1)
+    {
+      Insert_Push(LOAR_TYPE,i);
+    }
     memcpy(tmp_buf+6,&Energy_Data[i],ONE_RECORD_LEN-6);
     LoadRecord(LOAD0_USEADDR+i*30,tmp_buf);
   }
@@ -517,7 +520,9 @@ void Clear_E2R(int chan)
     ECRAds = ECRgTab[i].ECRAds;
     ECEAds = ECRgTab[i].ECEAds;
     EC_E2_W(ECEAds,tmpbuf,4);
-    *ECRAds = 0;
+    EC_E2_R(tmpbuf,ECEAds,4);
+    memcpy(ECRAds,tmpbuf,4);
+    //*ECRAds = 0;
     ++i;
   }
 }
@@ -895,6 +900,7 @@ void main(void)
     }
     VarInit();
     GetTime();
+    Read_E2R();
     MoveCurrentTimeBCD_Hex();																									//10.11.22
     while (1)
     {

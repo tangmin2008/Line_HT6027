@@ -31,7 +31,7 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [DebugChecksum]
-Checksum=-441646593
+Checksum=-1839605468
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -41,6 +41,11 @@ ShowArgs=0
 MixedMode=1
 [CodeCoverage]
 Enabled=_ 0
+[RecentFlashDownload]
+Path=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\config\flashloader\Hitrendtech\HT6X3X.out
+[SfrWindow]
+Show=1 1
+Sort=4 0
 [Interrupts]
 Enabled=1
 [MemConfig]
@@ -49,19 +54,12 @@ Manual=0
 Ddf=1
 TypeViol=0
 Stop=1
+[Trace1]
+Enabled=0
+ShowSource=1
 [Simulator]
 Freq=10000000
 MultiCoreRunAll=1
-[RecentFlashDownload]
-Path=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.0\arm\config\flashloader\Hitrendtech\HT6X3X.out
-[SfrWindow]
-Show=1 1
-Sort=4 0
-[struct_types]
-Fmt0=CLK-YearH	4	0
-Fmt1=CLK-YearL	4	0
-Fmt2=struct IEC101_STRUCT-PReFrameType	4	0
-Fmt3=struct IEC101_STRUCT-Sn	4	0
 [array_types]
 Fmt0=INT16U[16]	4	0
 Fmt1=u16[32]	4	0
@@ -113,12 +111,6 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
-[Disassemble mode]
-mode=3
-[Breakpoints2]
-Bp0=_ 0 "EMUL_DATA" "TIME_USEADDR" 0 0 0 0 4294967295
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\main.c}.460.7" 0 0 1 "" 0 "" 0
-Count=2
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -126,9 +118,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 1
 LogFile=_ "$PROJ_DIR$\TermIO.log"
-[Aliases]
-Count=0
-SuppressDialog=0
 [CallStackLog]
 Enabled=0
 [PowerProbe]
@@ -141,3 +130,10 @@ Mode=3
 Graph=0
 Symbiont=0
 Exclusions=
+[Disassemble mode]
+mode=3
+[Breakpoints2]
+Count=0
+[Aliases]
+Count=0
+SuppressDialog=0

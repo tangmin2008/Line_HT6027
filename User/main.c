@@ -577,6 +577,7 @@ void ProcHalfSec(void)
   HT_GPIO_BitsToggle(HT_GPIOB,GPIO_Pin_5);
   for(i=0;i<MAX_CH_NUM;++i)
   {
+    IEC101Process();
     ATT7022RdReg(ATVoltFlag,(unsigned char*)&(SM.State[i]),i);
     ATT7022RdReg(ATPZ,(unsigned char*)&tmp_p,i);
     tmp_p &= 0xffffff;
@@ -662,6 +663,7 @@ void ProcSec(void)
 #endif    
     for(i=0;i<MAX_CH_NUM;++i)
     {
+      IEC101Process();
       ATT7022RdReg(PFlag,(unsigned char*)&(SM.PQFlag[i]),i);
 #if 0      
       Energy_Data[i].Pa = GetPhasePW(ATPWPA,i);
@@ -741,6 +743,8 @@ void ProcSec(void)
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
     }
 #if 1   
+  //  Pn_Event_Save(0,1,1);
+  //  Pt_Event_Save(0);
     for(i=0;i<MAX_CH_NUM;++i)
     {
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
@@ -827,6 +831,7 @@ void ProcMin(void)
     Time_buf[5]=year-2000;
     if((Clk.MinH%15)==0)
     {
+      IEC101Process();
       Save_Data(Time_buf);
     }
     
@@ -855,6 +860,7 @@ void ProcHour(void)
   year = Clk.YearH;
   year = year*256 + Clk.YearL;
   Time_buf[5]=year-2000;
+  IEC101Process();
   Save_HourData(Time_buf);
 }
 
@@ -907,6 +913,7 @@ void main(void)
       HT_FreeDog();						
       if(((Flag.Power & F_PwrUp) == 0) && ( PowerCheck() == 1 ))		
       {
+        SM.CalibCount =0;
        // Flag.BatState=0;
         PwrOnInit();	
         InitPara();			

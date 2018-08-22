@@ -11,7 +11,7 @@ void udelay(int us)
       {
         __NOP();
       }
-      HT_FreeDog();
+     // HT_FreeDog();
     }
 }
 
@@ -83,10 +83,11 @@ int16_t Serial_Write(uint8_t port,uint8_t *buf,uint16_t len)
 			return 0;
 	}
         port=0;
-        while(m_sserial[port].send_len)
-         udelay(1000);// HT_FreeDog();
+        j = 0;
+        while(m_sserial[port].send_len && ++j<5000)
+         udelay(100);// HT_FreeDog();
 	j=0;
-        pUart->UARTCON &=~ (UART_UARTCON_RXIE + UART_UARTCON_RXEN);
+        //pUart->UARTCON &=~ (UART_UARTCON_RXIE + UART_UARTCON_RXEN);
         pUart->UARTCON |= (UART_UARTCON_TXIE + UART_UARTCON_TXEN);
 	do
 	{

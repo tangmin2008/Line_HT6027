@@ -148,6 +148,7 @@ int xmodemReceive()
   {
     for( retry = 0; retry < 100; ++retry) 
     {
+      HT_FreeDog();
       if (trychar) 
         port_outbyte(trychar);
       c = port_inbyte((DLY_1S));

@@ -481,17 +481,20 @@ void VarInit(void)
   }
 #endif  
   //脉冲常数100000
-  //MSpec.RMeterConst = 100000;
-  //MSpec.R7022E_HFConst = 4;
+  MSpec.RMeterConst = 100000;
+  MSpec.R7022E_HFConst = 4;
   //脉冲常数100000
   //1000
   /*
   MSpec.RMeterConst = 1000;
   MSpec.R7022E_HFConst = 400;
   */
+   //20000
+ // MSpec.RMeterConst = 20000;
+ // MSpec.R7022E_HFConst = 20;
   //10000
-  MSpec.RMeterConst = 10000;
-  MSpec.R7022E_HFConst = 40;
+  //MSpec.RMeterConst = 10000;
+ // MSpec.R7022E_HFConst = 40;
   //6400
   //MSpec.RMeterConst = 6400;
   //MSpec.R7022E_HFConst = 63;

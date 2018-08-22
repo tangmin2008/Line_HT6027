@@ -975,7 +975,7 @@
         <option>
           <name>Variant</name>
           <version>21</version>
-          <state>0</state>
+          <state>34</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -988,7 +988,7 @@
         </option>
         <option>
           <name>Input description</name>
-          <state></state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>Output variant</name>
@@ -997,7 +997,7 @@
         </option>
         <option>
           <name>Output description</name>
-          <state></state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -1010,7 +1010,7 @@
         </option>
         <option>
           <name>OGCoreOrChip</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GRuntimeLibSelect</name>
@@ -1024,7 +1024,7 @@
         </option>
         <option>
           <name>RTDescription</name>
-          <state></state>
+          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -1032,7 +1032,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state></state>
+          <state>7.30.3.8061</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1044,7 +1044,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state></state>
+          <state>HT6X3X	Hitrendtech HT6X3X</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -1052,7 +1052,7 @@
         </option>
         <option>
           <name>GEndianModeBE</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>OGBufferedTerminalOutput</name>
@@ -1078,17 +1078,17 @@
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state></state>
+          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
           <name>GFPUCoreSlave</name>
           <version>21</version>
-          <state>1</state>
+          <state>34</state>
         </option>
         <option>
           <name>GBECoreSlave</name>
           <version>21</version>
-          <state>1</state>
+          <state>34</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -1113,7 +1113,7 @@
         <debug>0</debug>
         <option>
           <name>CCDefines</name>
-          <state>NDEBUG</state>
+          <state>HT6x3x</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1226,7 +1226,7 @@
         </option>
         <option>
           <name>OutputFile</name>
-          <state></state>
+          <state>$FILE_BNAME$.o</state>
         </option>
         <option>
           <name>CCLibConfigHeader</name>
@@ -1242,7 +1242,10 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state></state>
+          <state>$PROJ_DIR$\..\Libraries\CMSIS\CM0\CoreSupport</state>
+          <state>$PROJ_DIR$\..\Libraries\CMSIS\CM0\DeviceSupport</state>
+          <state>$PROJ_DIR$\..\Libraries\HT60xx_StdPeriph_Driver</state>
+          <state>$PROJ_DIR$\..\Libraries\HT60xx_StdPeriph_Driver\inc</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1271,7 +1274,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>1</state>
+          <state>3</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -1484,7 +1487,7 @@
         </option>
         <option>
           <name>AOutputFile</name>
-          <state></state>
+          <state>$FILE_BNAME$.o</state>
         </option>
         <option>
           <name>AMultibyteSupport</name>
@@ -1530,7 +1533,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>0</state>
+          <state>2</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -1538,7 +1541,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state></state>
+          <state>HT6027.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1546,7 +1549,7 @@
         </option>
         <option>
           <name>OOCObjCopyEnable</name>
-          <state>0</state>
+          <state>1</state>
         </option>
       </data>
     </settings>
@@ -1593,11 +1596,11 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>###Unitialized###</state>
+          <state>HT6027.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
@@ -1653,11 +1656,11 @@
         </option>
         <option>
           <name>IlinkIcfOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>lnk0t.icf</state>
+          <state>F:\&#x6700;&#x8FD1;&#x5De5;&#x4F5C;\&#x7eBF;&#x635F;&#x5206;&#x6790;\&#x8F6F;&#x4eF6;\HT6027_LineLoss\IAR\HT6X3X.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1717,7 +1720,7 @@
         </option>
         <option>
           <name>IlinkProgramEntryLabel</name>
-          <state></state>
+          <state>__iar_program_start</state>
         </option>
         <option>
           <name>DoFill</name>

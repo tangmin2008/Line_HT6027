@@ -31,7 +31,7 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [DebugChecksum]
-Checksum=-1839605468
+Checksum=32611478
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -70,6 +70,8 @@ Fmt5=unsigned char[16]	4	0
 Fmt6=unsigned char[8]	4	0
 Fmt7=unsigned int[8]	4	0
 Fmt8=unsigned short[8]	4	0
+[watch_formats]
+Fmt0={W}1:oldcrc32	4	0
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -111,6 +113,10 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
+[Disassemble mode]
+mode=3
+[Breakpoints2]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -118,6 +124,9 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 1
 LogFile=_ "$PROJ_DIR$\TermIO.log"
+[Aliases]
+Count=0
+SuppressDialog=0
 [CallStackLog]
 Enabled=0
 [PowerProbe]
@@ -130,10 +139,3 @@ Mode=3
 Graph=0
 Symbiont=0
 Exclusions=
-[Disassemble mode]
-mode=3
-[Breakpoints2]
-Count=0
-[Aliases]
-Count=0
-SuppressDialog=0

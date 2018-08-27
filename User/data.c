@@ -225,7 +225,7 @@ const E2Para E2PTab[4] =
 ///	ECDataEAds,	0x3000,	0x2,	0,	//24C512	
 //	DataEAds,	0x80,	0x2,	0,	//24C64
 //	FMAds,		0x3FF,	0x2,	0,	//FM24CL16	3V
-	DataEAds,	0x8000,	0x1,	0,	//24C64
+	DataEAds,	0x8000,	0x2,	0,	//24C64
 	FMAds,		0x400,	0x1,	0,	//FM24CL16	3V
 
 	AdjEAds,	0x80,	0x2,	0,	//ATMEL24C04	

@@ -1053,23 +1053,16 @@ void ATT7022WR(unsigned char Cmd, unsigned char* Data, short Length,unsigned sho
 void WriteATByte( unsigned char Cmd )
 {
   unsigned short i;
- // HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;
   for(i=0;i<8;i++ )
   {
     Delay(DELEY2);	
-    //HT_GPIOG->PTDIR &= ~GPIOG_EMU_CLK;
     HT_GPIOG->PTSET |= GPIOG_EMU_CLK;
-    Delay(DELEY4);	
+    Delay(DELEY2);	
     if(( Cmd & ByteBit[7-i] ) != 0 ) 
-      //HT_GPIOG->PTDIR &= ~GPIOG_EMU_DIN;
       HT_GPIOG->PTSET |= GPIOG_EMU_DIN;
     else 
       HT_GPIOG->PTCLR |= GPIOG_EMU_DIN;
-      //HT_GPIOG->PTDIR |= GPIOG_EMU_DIN;
-    Delay(DELEY2);
-    //HT_GPIOG->PTDIR |= GPIOG_EMU_CLK;
-    HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;
-    Delay(DELEY2);	
+    HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;	
   }	
 }
 
@@ -1084,13 +1077,9 @@ void ATT7022Rd(unsigned char Cmd, unsigned char* Data, short Length,unsigned sho
   SPIPARA* SPIPara;	
   SPIPara = (SPIPARA*)Buff1;
   GetSPIPara( SPIPara, Devads );
- // HT_GPIOG->PTUP |= GPIOG_EMU_DOUT;
-  //*SPIPara->AD_CS_PTDIR &= ~SPIPara->AD_CS;
   HT_GPIOG->PTDIR   &= (~GPIOG_EMU_DOUT);
-  Delay(DELEY2);
   HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;
   HT_GPIOG->PTDIR |= GPIOG_EMU_CLK;
-  Delay(DELEY2);
   *SPIPara->AD_CS_PTCLR = SPIPara->AD_CS;
   *SPIPara->AD_CS_PTDIR |= SPIPara->AD_CS;
   Delay(DELEY5);
@@ -1102,24 +1091,15 @@ void ATT7022Rd(unsigned char Cmd, unsigned char* Data, short Length,unsigned sho
     for( j=0;j<8;j++ )
     {
       Delay(DELEY2);
-      //HT_GPIOG->PTDIR &= ~GPIOG_EMU_CLK;
       HT_GPIOG->PTSET |= GPIOG_EMU_CLK;
-      Delay(DELEY4);	
+      Delay(DELEY2);	
       if(( HT_GPIOG->PTDAT &GPIOG_EMU_DOUT ) != 0 ) 
         Temp |= ByteBit[7-j];
-      HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;
-      //HT_GPIOG->PTDIR |= GPIOG_EMU_CLK;
-      Delay(DELEY2);	
+      HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;	
     }
     *(Data+Length-1-i) = Temp; 		
   }
-  //*SPIPara->AD_CS_PTDIR &= ~SPIPara->AD_CS;
   *SPIPara->AD_CS_PTSET = SPIPara->AD_CS;
-  Delay(DELEY2);
-  //HT_GPIOG->PTDIR &= ~GPIOG_EMU_CLK;
-  Delay(DELEY2);	
- // HT_GPIOG->PTDIR &= ~GPIOG_EMU_DIN;
-  Delay(DELEY2);
 }
 
 void ATT7022WR(unsigned char Cmd, unsigned char* Data, short Length,unsigned short Devads )
@@ -1128,29 +1108,19 @@ void ATT7022WR(unsigned char Cmd, unsigned char* Data, short Length,unsigned sho
   unsigned char Buff1[64];
   SPIPARA* SPIPara;	
   SPIPara = (SPIPARA*)Buff1;
-  GetSPIPara( SPIPara, Devads );
-  //*SPIPara->AD_CS_PTDIR &= ~SPIPara->AD_CS;
-  Delay(DELEY2);	
+  GetSPIPara( SPIPara, Devads );	
   HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;
   HT_GPIOG->PTDIR |= GPIOG_EMU_DIN;
-  Delay(DELEY2);
   *SPIPara->AD_CS_PTDIR |= SPIPara->AD_CS;
   *SPIPara->AD_CS_PTCLR |= SPIPara->AD_CS;
-  Delay(DELEY5);
   WriteATByte( Cmd );
   Delay(DELEY5);
   for( i=0;i<Length;i++ )
   {
     WriteATByte(*(Data+Length-1-i) );
   }
-  //*SPIPara->AD_CS_PTDIR &= ~SPIPara->AD_CS;
   *SPIPara->AD_CS_PTSET |= SPIPara->AD_CS;
-  Delay(DELEY2);
-  //HT_GPIOG->PTDIR &= ~GPIOG_EMU_CLK;
   HT_GPIOG->PTSET |= GPIOG_EMU_CLK;
-  Delay(DELEY2);
-  //HT_GPIOG->PTDIR &= ~GPIOG_EMU_DIN;
-  Delay(DELEY2);
 }
 
 

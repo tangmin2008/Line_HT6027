@@ -484,7 +484,9 @@ void ATT7022Init(unsigned short Devads)
   HT_GPIOG->PTDIR &= ~GPIOG_EMU_DOUT;
   udelay(500); 
   *SPIPara->AD_RST_PTSET |= SPIPara->AD_RST;
-  udelay(25000); 
+  //SM.BatteryWTime=0;
+  udelay(3000); 
+  //SM.BatteryWTime=0;
  // udelay(1000);
   //SetIDefault(Devads);//zzltest
   HFConstHL = MSpec.R7022E_HFConst;	//新国网		//13.08.30
@@ -924,7 +926,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
 //				if( Value < (PW00002Ib/3) ) {Value = 0; i =0;}               //0.5W       
     if( Value < (PW00002Ib) ) {Value = 0; i =0;}               //0.5W  	//新国网		//13.08.30          
 #else
-//				if( Value < PW00002IbPh ) {Value = 0; i =0;}               //0.5W       
+//if( Value < PW00002IbPh ) {Value = 0; i =0;}               //0.5W       
     //if( Value < PW00002Ib ) {Value = 0; i =0;}               //0.5W   	//新国网		//13.08.30    
 #endif
     break;	
@@ -1034,7 +1036,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
   default: 
     break;
   }
-  if( Value < 9 ) Value = 0;
+  if( Value < 20) Value = 0;
 	//Long_BCD4( Point, (unsigned long)Value );
 	//Temp = *Point;
 	//RAM_Write( Point, Point+1, 3 );

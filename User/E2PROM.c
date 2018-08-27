@@ -367,6 +367,7 @@ short E2P_Write( unsigned short E2P_Dest, unsigned char* RAM_Src, short Lenth, s
       Flag.AlarmFlg[0] |= F_AlarmE2P;
     else 
       Flag.AlarmFlg[0] &= ~F_AlarmE2P;
+    E2P_Dest += NextPage;
   }
   return 0;
 }

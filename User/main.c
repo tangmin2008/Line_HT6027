@@ -519,6 +519,7 @@ void Clear_E2R(int chan)
   {
     ECRAds = ECRgTab[i].ECRAds;
     ECEAds = ECRgTab[i].ECEAds;
+    memset(tmpbuf,0,4);
     EC_E2_W(ECEAds,tmpbuf,4);
     EC_E2_R(tmpbuf,ECEAds,4);
     memcpy(ECRAds,tmpbuf,4);
@@ -580,20 +581,27 @@ void ProcHalfSec(void)
     IEC101Process();
     ATT7022RdReg(ATVoltFlag,(unsigned char*)&(SM.State[i]),i);
     ATT7022RdReg(ATPZ,(unsigned char*)&tmp_p,i);
+    //tmp_p = 80;  //test
     tmp_p &= 0xffffff;
+    if(tmp_p>200)
+      tmp_p = 0;
     if(tmp_p)
-    if(SM.State[i]&0x1000)
     {
-      ECP.PL_CumPn[i] += tmp_p;
-      ECP.PL_ChkPn[i]=ChkNum((unsigned char*)&ECP.PL_CumPn[i],2);
-    }
-    else
-    {
-      ECP.PL_CumPp[i] += tmp_p;
-      ECP.PL_ChkPp[i]=ChkNum((unsigned char*)&ECP.PL_CumPp[i],2);
+      if(SM.State[i]&0x1000)
+      {
+        ECP.PL_CumPn[i] += tmp_p;
+        ECP.PL_ChkPn[i]=ChkNum((unsigned char*)&ECP.PL_CumPn[i],2);
+      }
+      else
+      {
+        ECP.PL_CumPp[i] += tmp_p;
+        ECP.PL_ChkPp[i]=ChkNum((unsigned char*)&ECP.PL_CumPp[i],2);
+      }
     }
     ATT7022RdReg(ATQZ,(unsigned char*)&tmp_p,i);
     tmp_p &= 0xffffff;
+    if(tmp_p>200)
+      tmp_p = 0;
     if(tmp_p)
     {
       if(SM.State[i]&0x2000)
@@ -628,6 +636,7 @@ void ProcSec(void)
   char* Point;
   int i,j,flag_p;
   signed long *si_val;
+  unsigned int i_val;
 
   Flag.Clk &= ~F_Sec;
   Point = Buff;
@@ -747,6 +756,17 @@ void ProcSec(void)
   //  Pt_Event_Save(0);
     for(i=0;i<MAX_CH_NUM;++i)
     {
+      i_val = 0;
+      for(j=0;j<3;++j)
+      {
+        if(*((&Real_Data[i].Ia)+j)==0)
+        {
+          *((&Real_Data[i].Pfa)+j)=100000;
+        }
+        i_val += *((&Real_Data[i].Ia)+j);
+      }
+      if(i_val==0)
+        Real_Data[i].Pft = 100000;
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
       SM.PQFlag_b[i]=SM.PQFlag[i];
       if((flag_p&0xf))
@@ -756,9 +776,9 @@ void ProcSec(void)
         {
           if(flag_p&(1<<j))
           {
-            if(abs(si_val[j])>40)
+            if(abs(si_val[j])>289)
             {
-              SM.P_Time[i][j]=10;
+              SM.P_Time[i][j]=60;
             }
           }
         }
@@ -837,6 +857,7 @@ void ProcMin(void)
     
     Save_RandData(Time_buf);
  //   Save_MonthData(Time_buf);
+    ATT7022EStateCheckRun(Clk.MinH%MAX_CH_NUM);
 }	
 
 /***************************************************
@@ -904,9 +925,9 @@ void main(void)
       HT_FreeDog();
       __NOP();
     }
-    VarInit();
+    
     GetTime();
-    Read_E2R();
+    //Read_E2R();
     MoveCurrentTimeBCD_Hex();																									//10.11.22
     while (1)
     {
@@ -915,7 +936,8 @@ void main(void)
       {
         SM.CalibCount =0;
        // Flag.BatState=0;
-        PwrOnInit();	
+        PwrOnInit();
+        VarInit();	
         InitPara();			
         InitPara5();
        Serial_Open(2,9600,8,UartParity_Disable);
@@ -957,7 +979,7 @@ void main(void)
         Read_E2R();
         for(i=0;i<MAX_CH_NUM;i++)
         {
-          ATT7022Init(i);	//Test
+          ATT7022Init(i);
         }
         compensate_day();
         //Clear_E2R(0);
@@ -986,8 +1008,10 @@ void main(void)
       
       if(Flag.Power & F_IrmsCheck)
       {
+        udelay(10000);
         Serial_Open(2,115200,8,UartParity_Disable);
         xmodemReceive();
+        udelay(10000);
         Serial_Open(2,9600,8,UartParity_Disable);
       }
       else

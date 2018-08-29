@@ -583,7 +583,7 @@ void ProcHalfSec(void)
     ATT7022RdReg(ATPZ,(unsigned char*)&tmp_p,i);
     //tmp_p = 80;  //test
     tmp_p &= 0xffffff;
-    if(tmp_p>200)
+    if(tmp_p>100)
       tmp_p = 0;
     if(tmp_p)
     {
@@ -600,7 +600,7 @@ void ProcHalfSec(void)
     }
     ATT7022RdReg(ATQZ,(unsigned char*)&tmp_p,i);
     tmp_p &= 0xffffff;
-    if(tmp_p>200)
+    if(tmp_p>100)
       tmp_p = 0;
     if(tmp_p)
     {
@@ -817,7 +817,8 @@ void ProcSec(void)
         Buff[4]=0x22;
         Serial_Write(2,Buff,5);
     } 
-#endif    
+#endif
+  //ATT7022EStateCheckRun(Clk.SecH%MAX_CH_NUM);    
   }
   else
   {

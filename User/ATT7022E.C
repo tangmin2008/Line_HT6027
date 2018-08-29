@@ -474,14 +474,12 @@ void ATT7022Init(unsigned short Devads)
   HT_GPIOG->IOCFG &=~(GPIOG_EMU_CLK|GPIOG_EMU_DIN|GPIOG_EMU_DOUT);
   HT_GPIOG->PTUP  &=~(GPIOG_EMU_CLK|GPIOG_EMU_DIN|GPIOG_EMU_DOUT);
   HT_GPIOG->PTDIR |= GPIOG_EMU_CLK;
-  //HT_GPIOG->PTCLR = GPIOG_EMU_CLK;
+  HT_GPIOG->PTCLR = GPIOG_EMU_CLK;
+  HT_GPIOG->PTDIR &= ~GPIOG_EMU_DOUT;
   *SPIPara->AD_RST_PTDIR |= SPIPara->AD_RST;
   *SPIPara->AD_RST_PTCLR = SPIPara->AD_RST;
-  //HT_GPIOG->PTSET |= GPIOG_EMU_DIN;
   *SPIPara->AD_CS_PTSET |= SPIPara->AD_CS;
   *SPIPara->AD_CS_PTDIR |= SPIPara->AD_CS;
-  //HT_GPIOG->PTCLR |= GPIOG_EMU_DIN;
-  HT_GPIOG->PTDIR &= ~GPIOG_EMU_DOUT;
   udelay(500); 
   *SPIPara->AD_RST_PTSET |= SPIPara->AD_RST;
   //SM.BatteryWTime=0;
@@ -634,7 +632,7 @@ void ATT7022Init(unsigned short Devads)
 	if(( Data_Comp(Point, Para.RAT7022ChkSum[Devads], 3) != 0 )&&( FaultFlag == 0 ))		//ATChk		//10.11.02
 	{														//ATChk	
 		RAM_Write( Para.RAT7022ChkSum[Devads], Point, 3 );			//ATChk		
-		E2P_WData( AT7022ChkSum, Point, 3 );				//ATChk
+		//E2P_WData( AT7022ChkSum, Point, 3 );				//ATChk
 	}														//ATChk	
 
 #if ( NEW7022E == YesCheck )
@@ -696,12 +694,19 @@ void ATT7022Init(unsigned short Devads)
 	*(Point+1) = 0x00;
 	*Point = 0x01;
 	ATT7022WtReg( 0xC9, Point ,Devads);
-
-	RAM_Write( Point, (unsigned char*)&Value, 3 );			//ATChk		
-	if(( Data_Comp(Point, Para.RAT7022ChkSum2[Devads], 3) != 0 )&&( FaultFlag == 0 ))		//ATChk		//10.11.02
+        
+        ATT7022RdReg( ATChkSum1, Point ,Devads);
+        if(( Data_Comp(Point, Para.RAT7022ChkSum[Devads], 3) != 0 )&&( FaultFlag == 0 ))		//ATChk		//10.11.02
+	{														//ATChk	
+		RAM_Write( Para.RAT7022ChkSum[Devads], Point, 3 );
+	}
+        
+	//RAM_Write( Point, (unsigned char*)&Value, 3 );			//ATChk		
+	ATT7022RdReg( ATChkSum2, Point ,Devads);
+        if(( Data_Comp(Point, Para.RAT7022ChkSum2[Devads], 3) != 0 )&&( FaultFlag == 0 ))		//ATChk		//10.11.02
 	{														//ATChk	
 		RAM_Write( Para.RAT7022ChkSum2[Devads], Point, 3 );			//ATChk		
-		E2P_WData( AT7022ChkSum2, Point, 3 );				//ATChk
+		//E2P_WData( AT7022ChkSum2, Point, 3 );				//ATChk
 	}														//ATChk		   	
 
 

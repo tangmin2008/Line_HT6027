@@ -105,12 +105,12 @@ void PwrOnInit(void)
 
   // NET RX TX 指示灯
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5;
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_5|GPIO_Pin_8|GPIO_Pin_9;
    HT_GPIO_Init(HT_GPIOA, &GPIO_InitStructure);  
-   HT_GPIO_BitsSet(HT_GPIOA,GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5);
+   HT_GPIO_BitsSet(HT_GPIOA,GPIO_Pin_3|GPIO_Pin_5|GPIO_Pin_8|GPIO_Pin_9);
    
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_4|GPIO_Pin_11;
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_7|GPIO_Pin_11;
    HT_GPIO_Init(HT_GPIOA, &GPIO_InitStructure);
    
 
@@ -125,20 +125,20 @@ void PwrOnInit(void)
     HT_GPIOB->AFCFG &=~ GPIO_Pin_All;		/*配置为第一复用功能*/
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_4|GPIO_Pin_10;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOB, &GPIO_InitStructure);  
-    HT_GPIO_BitsSet(HT_GPIOB,GPIO_Pin_10);
+    HT_GPIO_BitsSet(HT_GPIOB,GPIO_Pin_0|GPIO_Pin_4|GPIO_Pin_10);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOB, &GPIO_InitStructure);
-    HT_GPIOB->PTSET |=  GPIO_Pin_5;
+    HT_GPIO_BitsSet(HT_GPIOB,GPIO_Pin_5);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3;
     HT_GPIO_Init(HT_GPIOB, &GPIO_InitStructure);
 
     /*!< GPIOC配置信息*/    		   
@@ -151,7 +151,7 @@ void PwrOnInit(void)
 
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF1;
     GPIO_InitStructure.GPIO_Pin = GPIOC_232_TXD|GPIOC_232_RXD|GPIO_Pin_8;
-    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Up;
+    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOC, &GPIO_InitStructure);
     
@@ -159,7 +159,7 @@ void PwrOnInit(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|FSI|FSCLK;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
-    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
     HT_GPIO_Init(HT_GPIOC, &GPIO_InitStructure);
     HT_GPIO_BitsSet(HT_GPIOC,GPIO_Pin_10);
     //HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_8);
@@ -167,11 +167,11 @@ void PwrOnInit(void)
 
     /*!< GPIOD配置信息*/     		   
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_14|GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOD, &GPIO_InitStructure);
-    HT_GPIO_BitsSet(HT_GPIOD,GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_14|GPIO_Pin_15);
+    HT_GPIO_BitsSet(HT_GPIOD,GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_10|GPIO_Pin_12;
@@ -181,11 +181,11 @@ void PwrOnInit(void)
 	
     /*!< GPIOE配置信息*/        		   
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|FCS1;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
-    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
     HT_GPIO_Init(HT_GPIOE, &GPIO_InitStructure);
-    HT_GPIOE->PTSET = GPIO_Pin_0;
+    HT_GPIO_BitsSet(HT_GPIOE,GPIO_Pin_0|GPIO_Pin_2);
 #if 0
 	HT_GPIOE->PTDIR |= GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_6;
 	HT_GPIOE->PTOD  |= GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_6;
@@ -199,11 +199,27 @@ void PwrOnInit(void)
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
     HT_GPIO_Init(HT_GPIOE, &GPIO_InitStructure);
     
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14;
+    /*!< GPIOG配置信息*/        		   
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_9|GPIO_Pin_10;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_7|GPIO_Pin_9|GPIO_Pin_10);
+    
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14;
+    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Up;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
+    HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
+    
+    /*!< GPIOH配置信息*/        		   
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
+    HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_0|GPIO_Pin_3);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_4;
@@ -259,17 +275,17 @@ void PwrOnInit(void)
 	//使能SysTick滴答定时器
 	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
 	//禁用SysTick滴答定时器
-//	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-    HT_RTC_ToutSet(Tout1Hz);
-    HT_TBSConfig(TBS_TBSCON_VBATEn,ENABLE);
-    HT_TBS_PeriodSet(VBATPRD,TBS_TBSPRD_VBATPRD_2S);
-    HT_TBS_ITConfig(TBS_TBSIE_VBATIE,ENABLE);
-  //  NVIC_EnableIRQ(UART0_IRQn);                                  /*!< 使能UART中断*/
-  //  NVIC_EnableIRQ(UART1_IRQn);                                  /*!< 使能UART中断*/
-    NVIC_EnableIRQ(UART2_IRQn);                                  /*!< 使能UART中断*/
-   // NVIC_EnableIRQ(UART3_IRQn);                                  /*!< 使能UART中断*/
-    NVIC_EnableIRQ(TBS_IRQn);
-    __enable_irq();
+        //	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
+        HT_RTC_ToutSet(Tout1Hz);
+        HT_TBSConfig(TBS_TBSCON_VBATEn,ENABLE);
+        HT_TBS_PeriodSet(VBATPRD,TBS_TBSPRD_VBATPRD_2S);
+        HT_TBS_ITConfig(TBS_TBSIE_VBATIE,ENABLE);
+        //  NVIC_EnableIRQ(UART0_IRQn);                                  /*!< 使能UART中断*/
+        //  NVIC_EnableIRQ(UART1_IRQn);                                  /*!< 使能UART中断*/
+        NVIC_EnableIRQ(UART2_IRQn);                                  /*!< 使能UART中断*/
+        // NVIC_EnableIRQ(UART3_IRQn);                                  /*!< 使能UART中断*/
+        NVIC_EnableIRQ(TBS_IRQn);
+        __enable_irq();
 }
 
 void PwrDnInit(void)

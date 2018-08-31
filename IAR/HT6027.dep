@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>1135383168</fileChecksum>
+  <fileChecksum>1552157812</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -265,7 +265,7 @@
       <file>$PROJ_DIR$\Debug\Obj\E2PROM.o</file>
       <file>$PROJ_DIR$\Debug\List\ht6xxx_iic.lst</file>
       <file>$PROJ_DIR$\Debug\Obj\xmodem.pbi</file>
-      <file>$PROJ_DIR$\..\User\TypeFLASH.h</file>
+      <file>$PROJ_DIR$\..\User\TypeFlash.h</file>
       <file>$PROJ_DIR$\Debug\Obj\IEC101.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\General.pbi</file>
       <file>$PROJ_DIR$\Debug\List\interrupt.lst</file>
@@ -301,7 +301,7 @@
       <outputs>
         <tool>
           <name>OBJCOPY</name>
-          <file> 288</file>
+          <file> 275</file>
         </tool>
         <tool>
           <name>ILINK</name>
@@ -1130,7 +1130,7 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 284 29 265 77 235 204</file>
+          <file> 284 29 77 235 265 204</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -1417,7 +1417,7 @@
       <file>$PROJ_DIR$\..\Libraries\HT60xx_StdPeriph_Driver\inc\ht6xxx_exti.h</file>
       <file>$PROJ_DIR$\..\User\ECProcess.h</file>
       <file>$PROJ_DIR$\..\User\Initial.h</file>
-      <file>$PROJ_DIR$\..\User\TypeFLASH.h</file>
+      <file>$PROJ_DIR$\..\User\TypeFlash.h</file>
       <file>$PROJ_DIR$\..\User\Measure.h</file>
       <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
       <file>$PROJ_DIR$\..\User\cpucard.h</file>

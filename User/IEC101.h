@@ -1,5 +1,6 @@
 #ifndef __IEC101_H__
 #define __IEC101_H__
+#include "TypeMeter.h"
 typedef unsigned char 	u8;
 typedef unsigned int  	u16;
 typedef unsigned long  	u32;
@@ -124,6 +125,10 @@ struct IEC101_STRUCT
   u8 pce_num;
   u8 pcc_num;
   u8 ptt_num;
+  long nLastYcVal[MAX_CH_NUM*23];
+  int nStartYcOver;
+  int SendYcN;
+  int byRange;
 };
 
 /***************************************************************************
@@ -356,9 +361,9 @@ struct IEC101_STRUCT
 #define IEC101_SOENPF_TIME56	 22		//每帧最大SOE数	 246/11= 22.36
 #define IEC101_SOENPF_TIME24	 32		//每帧最大SOE数	 246/7=	35.1
 
-#define IEC101_YCCNPF 16		//每帧最大变化遥测数
+#define IEC101_YCCNPF 20		//每帧最大变化遥测数
 #define IEC101_YCNPF 23 //31			//每帧最大遥测数(每组遥测分2帧传送)
-#define IEC101_YXNPF 64			//每帧最大遥信数(每组遥信分2帧传送)
+#define IEC101_YXNPF 4			//每帧最大遥信数(每组遥信分2帧传送)
 #define IEC101_DDNPF 8			//每帧最大电度数   246/8=30.75
 #define IEC101_YCNPG 128		//每组最大遥测数(每组遥测分2帧传送)
 #define IEC101_YXNPG 128	   	//每组最大遥信数(每组遥信分2帧传送)

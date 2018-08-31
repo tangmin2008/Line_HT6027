@@ -422,16 +422,36 @@ void InitPara6(void)
 void InitPara7(void)
 {
 }
-void InitPara(void)			
+void InitPara(void)
 {
   short i;
   unsigned char *p_buf;
- 
+  unsigned char buf[8];
+
   for(i=0;i<MAX_CH_NUM;++i)
   {  
     p_buf =(unsigned char*)&(m_ecpara[i].cmon_day);
     E2P_RData(p_buf,CMon_DAY0+i*25,24);
   }
+  E2P_RData(buf,PW_ADDR,1);
+  Para.PW = buf[0];
+  if(Para.PW!=0x33)
+    Para.PW = 0x34;
+  if(Para.PW==0x34)
+  {
+    HT_GPIO_BitsSet(HT_GPIOC,GPIO_Pin_4);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_4);
+  }
+  E2P_RData(buf,CONST_H,4);
+  memcpy(&MSpec.RMeterConst,buf,4);
+  if((MSpec.RMeterConst<2000) || (MSpec.RMeterConst>400000))
+  {
+    MSpec.RMeterConst = 20000;
+  }
+  MSpec.R7022E_HFConst = 400000/MSpec.RMeterConst;
   InitPara7();		
 }
 

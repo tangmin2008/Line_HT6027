@@ -821,6 +821,7 @@ typedef struct
 typedef struct
 {
   unsigned int HDLC_ADDR;
+  unsigned int PW;
   BCD3	RAT7022ChkSum[MAX_CH_NUM];			//7022校表数据校验和	//ATChk
   BCD3	RAT7022ChkSum2[MAX_CH_NUM];			//7022E校表数据校验和2
 } PARA;

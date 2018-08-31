@@ -384,7 +384,51 @@ short Get_MonthData(int No,int ch,unsigned char *buf)
   ReadRecord(MOND0_USEADDR+30*ch,buf,No);
   return E2ONE_RECORD_LEN;
 }
-
+void compensate_month()
+{
+ unsigned char tmp_buf[ONE_RECORD_SIZE]; 
+ unsigned char time_buf[8];
+ int year;
+ int i,j,k;
+ for(i=0;i<MAX_CH_NUM;++i)
+ {
+   ReadRecord(MOND0_USEADDR+30*i,tmp_buf,0);
+   memcpy(time_buf,tmp_buf,6); 
+   tmp_buf[3] = Clk.DayH;
+   tmp_buf[4] = Clk.Month;
+   year = Clk.YearH;
+   year = year*256 + Clk.YearL;
+   tmp_buf[5]=year-2000;
+   for(j=0;j<12;++j)
+   {
+     if((tmp_buf[4] == time_buf[4]) && (tmp_buf[5] == time_buf[5]))
+     {
+       break;
+     }
+     --tmp_buf[4];
+     if(tmp_buf[4]==0)
+     {
+       tmp_buf[4] = 12;
+       --tmp_buf[5];
+     }
+   }
+   memcpy(tmp_buf+6,&Energy_Data[i],E2ONE_RECORD_LEN-6);
+   for(j=0;j<12;++j)
+   {
+     if((tmp_buf[4] == Clk.Month) && (tmp_buf[5] == (year-2000)))
+     {
+       break;
+     }
+     ++tmp_buf[4];
+     if(tmp_buf[4]>12)
+     {
+       tmp_buf[4] = 1;
+       ++tmp_buf[5];
+     }	
+     LoadRecord(MOND0_USEADDR+i*30,tmp_buf);
+   }
+ }
+}
 int Month_Record_Num()
 {
   int Num;
@@ -750,6 +794,7 @@ void ProcSec(void)
       Read_ATTValue(ATAngleA,(unsigned char *)&SM.Angle_Ia[i],i);
       Read_ATTValue(ATAngleB,(unsigned char *)&SM.Angle_Ib[i],i);
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
+     // Real_Data[i].Ua +=i; //test
     }
 #if 1   
   //  Pn_Event_Save(0,1,1);
@@ -983,6 +1028,7 @@ void main(void)
           ATT7022Init(i);
         }
         compensate_day();
+        compensate_month();
         //Clear_E2R(0);
         //Clear_EVT2R(0);
         break;

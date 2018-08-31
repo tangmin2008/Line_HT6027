@@ -495,7 +495,9 @@ void ATT7022Init(unsigned short Devads)
   *(Point+3) = 0x5A;
   ATT7022WtReg( 0xC9, Point+3 ,Devads);
   
-  *(Point+3) = 0x0;
+  *(Point+3) = 0x00;
+  ATT7022WtReg( PinCtrl+128, Point+3 ,Devads);
+  *(Point+3) = 0x00;
   ATT7022WtReg( 0xC3, Point+3 ,Devads);
   ATT7022WtReg( 0x80, Point+3 ,Devads);
 
@@ -525,15 +527,21 @@ void ATT7022Init(unsigned short Devads)
 	*(Point+1) = 0x00;					//12..01.18  ADC1倍
 	ATT7022WtReg( PGACtrl+128, Point ,Devads);	//ADC增益配置寄存器
 
-#if( LinkMode == Phase3Wire4 )			//ATChk
+//#if( LinkMode == Phase3Wire4 )			//ATChk
+        if(Para.PW==0x34)
+        {
 #if ( DLT645_2007_14 ==	YesCheck )			//新国网	//14.04.25
-	*Point = 0xCC;						//代数和、能量寄存器读后清0	//视在采用RMS		//14.09.04
+          *Point = 0xCC;						//代数和、能量寄存器读后清0	//视在采用RMS		//14.09.04
 #else
-	*Point = 0xC4;						//代数和、能量寄存器读后清0
-#endif	
-#else
-	*Point = 0x84;						//代数和、能量寄存器读后清0	
+          *Point = 0xC4;						//代数和、能量寄存器读后清0
 #endif
+        }
+        else
+        {
+          //#else
+          *Point = 0x84;						//代数和、能量寄存器读后清0	
+          //#endif
+        }
 	*(Point+1) = 0xF8;			//选择功率作为潜动起动判断依据
 	ATT7022WtReg( EMUCfg+128, Point ,Devads);	//EMU单元配置
 
@@ -1041,7 +1049,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
   default: 
     break;
   }
-  if( Value < 20) Value = 0;
+ // if( Value < 20) Value = 0;
 	//Long_BCD4( Point, (unsigned long)Value );
 	//Temp = *Point;
 	//RAM_Write( Point, Point+1, 3 );

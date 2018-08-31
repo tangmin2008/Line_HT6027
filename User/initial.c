@@ -157,9 +157,9 @@ void PwrOnInit(void)
     
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|FSI|FSCLK;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|FSI|FSCLK|GPIO_Pin_4;
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
-    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOC, &GPIO_InitStructure);
     HT_GPIO_BitsSet(HT_GPIOC,GPIO_Pin_10);
     //HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_8);
@@ -495,7 +495,8 @@ void VarInit(void)
     Real_Data[i].Pb=194+i;
     Real_Data[i].Pc=194+i;
   }
-#endif  
+#endif
+#if 0  
   //Âö³å³£Êý100000
   MSpec.RMeterConst = 100000;
   MSpec.R7022E_HFConst = 4;
@@ -514,8 +515,9 @@ void VarInit(void)
   //6400
   //MSpec.RMeterConst = 6400;
   //MSpec.R7022E_HFConst = 63;
+#endif  
   MSpec.RBaseCurrent = 1000;
-  MSpec.RPW00002Ib = 1000;
+  MSpec.RPW00002Ib = 50;
   MSpec.R7022E_PStartup = 5;
   MSpec.R7022E_IStart =  1;
 }

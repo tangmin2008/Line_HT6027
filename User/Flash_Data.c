@@ -436,12 +436,12 @@ unsigned char ReadByte(void)
 	Temp = 0;
 	for( i=0;i<8;i++ )
 	{
-		Delay(FLASH_DELAY1);			//16.10.16
+		//Delay(FLASH_DELAY1);			//16.10.16
 		DF_SCK &= (~FSCLK);//HT_GPIOC->PTCLR |= FSCLK;//PDIR_FlsSCK |= P_FlsSCK;
-		Delay(FLASH_DELAY1);			//16.10.16
-		__NOP();						//16.10.17
+		//Delay(FLASH_DELAY1);			//16.10.16
+		//__NOP();						//16.10.17
 		DF_SCK |= (FSCLK);//HT_GPIOC->PTSET |= FSCLK;//PDIR_FlsSCK &= ~P_FlsSCK;		
-		Delay(FLASH_DELAY1);			//16.10.16
+		//Delay(FLASH_DELAY1);			//16.10.16
 //		__NOP();						//16.10.17
 //		if(( HT_GPIOB->PTDAT & GPIOB_FSO ) != 0 ) Temp |= ByteBit[7-i];//if(( PIN_FlsSDO & P_FlsSDO ) != 0 ) Temp |= ByteBit[7-i];
 		Temp <<= 1;
@@ -486,13 +486,13 @@ void WriteByte(unsigned char Byte)
 	
 	for( i=0;i<8;i++ )
 	{
-                Delay(FLASH_DELAY1);
+                //Delay(FLASH_DELAY1);
 		DF_SCK &= (~FSCLK);//HT_GPIOC->PTCLR |= FSCLK;
-                Delay(FLASH_DELAY1);
+                //Delay(FLASH_DELAY1);
                 if(( Byte & 0x80 ) == 0x80 ) DF_SDI |= FSI;//HT_GPIOC->PTSET |= FSI;//if(( Byte & ByteBit[7-i] ) != 0 ) PDIR_FlsSDI &= ~P_FlsSDI;
 		else DF_SDI &= (~FSI);//HT_GPIOC->PTCLR |= FSI;//else PDIR_FlsSDI |= P_FlsSDI;
-		__NOP();
-                 Delay(FLASH_DELAY1);
+		//__NOP();
+                // Delay(FLASH_DELAY1);
 		DF_SCK |= (FSCLK);//HT_GPIOC->PTSET |= FSCLK;//PDIR_FlsSCK &= ~P_FlsSCK;		
 		Byte <<= 1;
 	}	

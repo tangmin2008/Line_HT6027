@@ -581,7 +581,7 @@ unsigned char s_Devtype[5]="DTU-0";
 unsigned char s_Operation[]="N/A";
 unsigned char s_Manufacture[]="¾æ»ª";
 unsigned char s_Hardwarever[]="B";
-unsigned char s_Firmwarever[]="01.07";
+unsigned char s_Firmwarever[]="01.09";
 unsigned char s_FirmwareCrc[]="0x7777";
 unsigned char s_Protocolver[]="V1.000";
 unsigned char s_Model[]="JH4000";
@@ -944,6 +944,10 @@ void Write_Para(unsigned char *buf)
       Flag.Power |=F_IrmsCheck;
     else if((buf[2]==0x55) && (buf[3]==0xaa))
       NVIC_SystemReset();
+    else if((buf[2]==0xaa) && (buf[3]==0xaa))
+    {
+      Progarm_Update();
+    }
     break;
   case 0x79:
     Clear_E2R(0);
@@ -4542,7 +4546,7 @@ void InitIEC101Prot(void)
   {
     lpIEC101->YxNPF[i]=4;//*MAX_CH_NUM;
   }
-  sprintf(buf,"0x%04X",crc16_ccitt(0x4000,0xf000));
+  sprintf(buf,"0x%04X",crc16_ccitt(0x0000,0x12000));
   memcpy(s_FirmwareCrc,buf,6);
   s_Devtype[4] = '0'+MAX_CH_NUM;
 #if 0 

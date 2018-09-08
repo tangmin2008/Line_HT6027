@@ -31,7 +31,7 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [DebugChecksum]
-Checksum=-235391287
+Checksum=1580883355
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -139,7 +139,8 @@ mode=3
 Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.296.3" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.418.3" 0 0 1 "" 0 "" 0
 Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.169.11" 0 0 1 "" 0 "" 0
-Count=3
+Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\User\main.c}.1084.9" 0 0 1 "" 0 "" 0
+Count=4
 [Aliases]
 Count=0
 SuppressDialog=0

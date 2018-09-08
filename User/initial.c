@@ -516,8 +516,8 @@ void VarInit(void)
   //MSpec.RMeterConst = 6400;
   //MSpec.R7022E_HFConst = 63;
 #endif  
-  MSpec.RBaseCurrent = 1000;
-  MSpec.RPW00002Ib = 50;
+/*  MSpec.RBaseCurrent = 1000;
+  MSpec.RPW00002Ib = 50;*/
   MSpec.R7022E_PStartup = 5;
   MSpec.R7022E_IStart =  1;
 }

@@ -396,7 +396,9 @@
 
 #define	ID_ADDR                           CEVENT7_CURADDR+3
 #define	PW_ADDR                           ID_ADDR+12
-#define CONST_H                           PW_ADDR+2                         
+#define CONST_H                           PW_ADDR+2  
+#define BASE_CURRENT                      CONST_H+5
+#define PW_IB                             BASE_CURRENT+5
 
 #define ErrorRegAddr			 E2P_PGLEN-0x800
 

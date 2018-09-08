@@ -452,6 +452,19 @@ void InitPara(void)
     MSpec.RMeterConst = 20000;
   }
   MSpec.R7022E_HFConst = 400000/MSpec.RMeterConst;
+  E2P_RData(buf,BASE_CURRENT,4);
+  memcpy(&MSpec.RBaseCurrent,buf,4);
+  if((MSpec.RBaseCurrent<1000) || (MSpec.RBaseCurrent>10000))
+  {
+    MSpec.RBaseCurrent = 5000;
+  }
+  
+  E2P_RData(buf,PW_IB,2);
+  memcpy(&MSpec.RPW00002Ib,buf,2);
+  if((MSpec.RPW00002Ib<1000) || (MSpec.RPW00002Ib>10000))
+  {
+    MSpec.RPW00002Ib = 288;
+  }
   InitPara7();		
 }
 

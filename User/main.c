@@ -480,6 +480,42 @@ int Get_LoadFile_Xml_Len(void)
   return Len; 
 }
 
+void Save_ECRamBufAds()
+{
+  int i;
+  unsigned short* ECRamBufAdsPtr;
+  unsigned char* ECRamBufChkAdsPtr;
+  unsigned short ECEAds;
+  
+  for( i=0;i<ECUnitNum;++i)
+  {
+    ECRamBufAdsPtr = ECRgTab[i].ECRamBufAds;
+    ECRamBufChkAdsPtr = ECRgTab[i].ECRamBufChkAds;
+    ECEAds = ECRgTab[i].ECFAds;
+    if( *ECRamBufChkAdsPtr == ChkNum( (unsigned char*)ECRamBufAdsPtr, 2 ) )
+    {
+      EC_E2_W(ECEAds,(unsigned char*)ECRamBufAdsPtr,2);
+    }
+  }
+}
+
+void ReLoad_ECRamBufAds()
+{
+  int i;
+  unsigned short* ECRamBufAdsPtr;
+  unsigned char* ECRamBufChkAdsPtr;
+  unsigned short ECEAds;
+  
+  for( i=0;i<ECUnitNum;++i)
+  {
+    ECRamBufAdsPtr = ECRgTab[i].ECRamBufAds;
+    ECRamBufChkAdsPtr = ECRgTab[i].ECRamBufChkAds;
+    ECEAds = ECRgTab[i].ECFAds;
+    EC_E2_R((unsigned char*)ECRamBufAdsPtr,ECEAds,2);
+    *ECRamBufChkAdsPtr = ChkNum( (unsigned char*)ECRamBufAdsPtr, 2 );
+  }
+}
+
 void EC_MeasA(void)
 {
   int i;
@@ -567,7 +603,10 @@ void Clear_E2R(int chan)
     EC_E2_W(ECEAds,tmpbuf,4);
     EC_E2_R(tmpbuf,ECEAds,4);
     memcpy(ECRAds,tmpbuf,4);
-    //*ECRAds = 0;
+    ECEAds = ECRgTab[i].ECFAds;
+    EC_E2_W(ECEAds,tmpbuf,2);
+    *ECRgTab[i].ECRamBufAds = 0;
+    *ECRgTab[i].ECRamBufChkAds = 0xa5;
     ++i;
   }
 }
@@ -713,10 +752,11 @@ void ProcSec(void)
       Energy_Data[Buff[0]].Pt = Energy_Data[Buff[0]].Pa+Energy_Data[Buff[0]].Pb+Energy_Data[Buff[0]].Pc;
       Real_Data[Buff[0]].Qa++;*/
     }
-#endif    
+#endif  
+    IEC101Process();
     for(i=0;i<MAX_CH_NUM;++i)
     {
-      IEC101Process();
+      
       ATT7022RdReg(PFlag,(unsigned char*)&(SM.PQFlag[i]),i);
 #if 0      
       Energy_Data[i].Pa = GetPhasePW(ATPWPA,i);
@@ -796,9 +836,6 @@ void ProcSec(void)
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
      // Real_Data[i].Ua +=i; //test
     }
-#if 1   
-  //  Pn_Event_Save(0,1,1);
-  //  Pt_Event_Save(0);
     for(i=0;i<MAX_CH_NUM;++i)
     {
       i_val = 0;
@@ -812,6 +849,13 @@ void ProcSec(void)
       }
       if(i_val==0)
         Real_Data[i].Pft = 100000;
+    }
+    IEC101Process();
+#if 1   
+  //  Pn_Event_Save(0,1,1);
+  //  Pt_Event_Save(0);
+    for(i=0;i<MAX_CH_NUM;++i)
+    {
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
       SM.PQFlag_b[i]=SM.PQFlag[i];
       if((flag_p&0xf))
@@ -863,6 +907,7 @@ void ProcSec(void)
         Serial_Write(2,Buff,5);
     } 
 #endif
+    IEC101Process();
   //ATT7022EStateCheckRun(Clk.SecH%MAX_CH_NUM);    
   }
   else
@@ -1023,6 +1068,7 @@ void main(void)
         //EC_ClearA();
         //Read_E2R1();
         Read_E2R();
+        ReLoad_ECRamBufAds();
         for(i=0;i<MAX_CH_NUM;i++)
         {
           ATT7022Init(i);
@@ -1035,6 +1081,7 @@ void main(void)
       }	
       if(((Flag.Power & F_PwrUp) != 0) && ( PowerCheck() == 0 ))
       {
+        Save_ECRamBufAds();
 //       // Flag.BatState=1;
 //        //PwrDnInit();
       }	

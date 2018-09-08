@@ -581,7 +581,7 @@ unsigned char s_Devtype[5]="DTU-0";
 unsigned char s_Operation[]="N/A";
 unsigned char s_Manufacture[]="¾æ»ª";
 unsigned char s_Hardwarever[]="B";
-unsigned char s_Firmwarever[]="01.09";
+unsigned char s_Firmwarever[]="01.10";
 unsigned char s_FirmwareCrc[]="0x7777";
 unsigned char s_Protocolver[]="V1.000";
 unsigned char s_Model[]="JH4000";
@@ -832,11 +832,18 @@ void Read_Para(unsigned char *buf)
   yc_no = Len;
   switch(buf[1])
   {
+  case 0x69:
+    memcpy(buf+2,&MSpec.RPW00002Ib,2);
+    yc_no = Len + 2;
+    break;
+  case 0x70:
+    memcpy(buf+2,&MSpec.RBaseCurrent,4);
+    yc_no = Len + 4;
+    break;
   case 0x72:
     //EC_E2_R(buf+2,CONST_H,4);
     memcpy(buf+2,&MSpec.RMeterConst,4);
     yc_no = Len + 4;
-    break;
     break;
   case 0x73:
     EC_E2_R(buf+2,PW_ADDR,1);
@@ -911,6 +918,12 @@ void Write_Para(unsigned char *buf)
   *(buf-1) |=0x80;
   switch(buf[1])
   {
+  case 0x69:
+    EC_E2_W(PW_IB,buf+2,2);
+    break;
+  case 0x70:
+    EC_E2_W(BASE_CURRENT,buf+2,4);
+    break;
   case 0x72:
     EC_E2_W(CONST_H,buf+2,4);
     break;

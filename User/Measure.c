@@ -1055,9 +1055,9 @@ void WriteATByte( unsigned char Cmd )
   unsigned short i;
   for(i=0;i<8;i++ )
   {
-   // Delay(DELEY2);	
+    Delay(DELEY2);	
     HT_GPIOG->PTSET |= GPIOG_EMU_CLK;
-    //Delay(DELEY2);	
+    Delay(DELEY2);	
     if(( Cmd & ByteBit[7-i] ) != 0 ) 
       HT_GPIOG->PTSET |= GPIOG_EMU_DIN;
     else 
@@ -1090,12 +1090,13 @@ void ATT7022Rd(unsigned char Cmd, unsigned char* Data, short Length,unsigned sho
     Temp = 0;
     for( j=0;j<8;j++ )
     {
-     // Delay(DELEY2);
+      Delay(DELEY2);
       HT_GPIOG->PTSET |= GPIOG_EMU_CLK;
       Delay(DELEY2);
       if(( HT_GPIOG->PTDAT &GPIOG_EMU_DOUT ) != 0 ) 
         Temp |= ByteBit[7-j];
       HT_GPIOG->PTCLR |= GPIOG_EMU_CLK;	
+      Delay(DELEY2);
     }
     *(Data+Length-1-i) = Temp; 		
   }

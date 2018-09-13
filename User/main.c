@@ -491,10 +491,10 @@ void Save_ECRamBufAds()
   {
     ECRamBufAdsPtr = ECRgTab[i].ECRamBufAds;
     ECRamBufChkAdsPtr = ECRgTab[i].ECRamBufChkAds;
-    ECEAds = ECRgTab[i].ECFAds;
+    ECEAds = ECRgTab[i].ECEAds;
     if( *ECRamBufChkAdsPtr == ChkNum( (unsigned char*)ECRamBufAdsPtr, 2 ) )
     {
-      EC_E2_W(ECEAds,(unsigned char*)ECRamBufAdsPtr,2);
+      E2P_PWData(ECEAds,(unsigned char*)ECRamBufAdsPtr,2);
     }
   }
 }
@@ -510,8 +510,8 @@ void ReLoad_ECRamBufAds()
   {
     ECRamBufAdsPtr = ECRgTab[i].ECRamBufAds;
     ECRamBufChkAdsPtr = ECRgTab[i].ECRamBufChkAds;
-    ECEAds = ECRgTab[i].ECFAds;
-    EC_E2_R((unsigned char*)ECRamBufAdsPtr,ECEAds,2);
+    ECEAds = ECRgTab[i].ECEAds;
+    E2P_PRData((unsigned char*)ECRamBufAdsPtr,ECEAds,2);
     *ECRamBufChkAdsPtr = ChkNum( (unsigned char*)ECRamBufAdsPtr, 2 );
   }
 }
@@ -603,8 +603,8 @@ void Clear_E2R(int chan)
     EC_E2_W(ECEAds,tmpbuf,4);
     EC_E2_R(tmpbuf,ECEAds,4);
     memcpy(ECRAds,tmpbuf,4);
-    ECEAds = ECRgTab[i].ECFAds;
-    EC_E2_W(ECEAds,tmpbuf,2);
+    ECEAds = ECRgTab[i].ECEAds;
+    E2P_PWData(ECEAds,tmpbuf,2);
     *ECRgTab[i].ECRamBufAds = 0;
     *ECRgTab[i].ECRamBufChkAds = 0xa5;
     ++i;

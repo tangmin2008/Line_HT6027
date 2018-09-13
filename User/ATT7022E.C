@@ -892,7 +892,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
   }	
   
   A0001Ib = MSpec.RBaseCurrent / 1000;
-  A0002Ib = MSpec.RBaseCurrent / 100;
+  A0002Ib = MSpec.RBaseCurrent;
   PS32 = MSpec.RMeterConst / 100;			//新国网		//13.08.30	
   HFConstHL = MSpec.R7022E_HFConst;		//新国网		//13.08.30	
   PW00002Ib = MSpec.RPW00002Ib;			//新国网		//13.08.30

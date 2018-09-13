@@ -461,7 +461,7 @@ void InitPara(void)
   
   E2P_RData(buf,PW_IB,2);
   memcpy(&MSpec.RPW00002Ib,buf,2);
-  if((MSpec.RPW00002Ib<1000) || (MSpec.RPW00002Ib>10000))
+  if((MSpec.RPW00002Ib<50) || (MSpec.RPW00002Ib>10000))
   {
     MSpec.RPW00002Ib = 288;
   }

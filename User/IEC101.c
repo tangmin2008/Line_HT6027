@@ -581,7 +581,7 @@ unsigned char s_Devtype[5]="DTU-0";
 unsigned char s_Operation[]="N/A";
 unsigned char s_Manufacture[]="¾æ»ª";
 unsigned char s_Hardwarever[]="B";
-unsigned char s_Firmwarever[]="01.10";
+unsigned char s_Firmwarever[]="01.12";
 unsigned char s_FirmwareCrc[]="0x7777";
 unsigned char s_Protocolver[]="V1.000";
 unsigned char s_Model[]="JH4000";
@@ -2266,7 +2266,10 @@ void SendData2(void)
   {
     lpIEC101->PSeAppLayer.byMsgNum = 0;
     //lpIEC101->PSeAppLayer.LinkFunCode = 0xE5;
-    lpIEC101->PSeAppLayer.LinkFunCode = YES_ACK;
+    if(lpIEC101->FlagPingH)
+      lpIEC101->PSeAppLayer.LinkFunCode = YES_ACK;
+    else
+      lpIEC101->PSeAppLayer.LinkFunCode = RESP_NO_DATA;
   } 
 #endif        
 }

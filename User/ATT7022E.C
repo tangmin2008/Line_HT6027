@@ -480,10 +480,10 @@ void ATT7022Init(unsigned short Devads)
   *SPIPara->AD_RST_PTCLR = SPIPara->AD_RST;
   *SPIPara->AD_CS_PTSET |= SPIPara->AD_CS;
   *SPIPara->AD_CS_PTDIR |= SPIPara->AD_CS;
-  udelay(500); 
+  udelay(600); 
   *SPIPara->AD_RST_PTSET |= SPIPara->AD_RST;
   //SM.BatteryWTime=0;
-  udelay(3000); 
+  udelay(5000); 
   //SM.BatteryWTime=0;
  // udelay(1000);
   //SetIDefault(Devads);//zzltest
@@ -892,7 +892,7 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
   }	
   
   A0001Ib = MSpec.RBaseCurrent / 1000;
-  A0002Ib = MSpec.RBaseCurrent;
+  A0002Ib = MSpec.RBaseCurrent*6;
   PS32 = MSpec.RMeterConst / 100;			//新国网		//13.08.30	
   HFConstHL = MSpec.R7022E_HFConst;		//新国网		//13.08.30	
   PW00002Ib = MSpec.RPW00002Ib;			//新国网		//13.08.30
@@ -932,8 +932,10 @@ short Read_ATTValue( unsigned char Cmd, unsigned char* Data ,unsigned short Deva
 //LValue = ( LValue * 6328125 ) / ( (unsigned long)HFConstHL * PS32 * 2048 );		//PS32大了10倍
 //#else
 ////LValue = ( LValue * 253125 * 10 ) / ( (unsigned long)HFConstHL * PS32 * 8192 );			//Lvalue = Lvalue*2.592*10^10/(HFconst*EC*2^23)
-    LValue = ( LValue * 1265625 ) / ( (unsigned long)HFConstHL * PS32 * 4096 );			//Lvalue = Lvalue*2.592*10^10/(HFconst*EC*2^23)
-//#endif		
+   LValue = ( LValue * 1265625 ) / ( (unsigned long)HFConstHL * PS32 * 4096 );			//Lvalue = Lvalue*2.592*10^10/(HFconst*EC*2^23)
+
+     // LValue = ( LValue * 1261839) / ( (unsigned long)HFConstHL * PS32 * 4096 );  //3w
+    //#endif		
     Value = LValue;	
     if(Value < PW00002Ib)
     {

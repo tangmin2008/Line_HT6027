@@ -834,23 +834,20 @@ void ProcSec(void)
       Read_ATTValue(ATAngleA,(unsigned char *)&SM.Angle_Ia[i],i);
       Read_ATTValue(ATAngleB,(unsigned char *)&SM.Angle_Ib[i],i);
       Read_ATTValue(ATAngleC,(unsigned char *)&SM.Angle_Ic[i],i);
-     // Real_Data[i].Ua +=i; //test
-    }
-    for(i=0;i<MAX_CH_NUM;++i)
-    {
       i_val = 0;
       for(j=0;j<3;++j)
       {
         if(*((&Real_Data[i].Ia)+j)==0)
         {
-          *((&Real_Data[i].Pfa)+j)=100000;
+          *((&Real_Data[i].Pfa)+j)=0;
         }
         i_val += *((&Real_Data[i].Ia)+j);
       }
       if(i_val==0)
-        Real_Data[i].Pft = 100000;
+        Real_Data[i].Pft = 0;
+      IEC101Process();
     }
-    IEC101Process();
+    
 #if 1   
   //  Pn_Event_Save(0,1,1);
   //  Pt_Event_Save(0);
@@ -1031,7 +1028,7 @@ void main(void)
         VarInit();	
         InitPara();			
         InitPara5();
-       Serial_Open(2,9600,8,UartParity_Disable);
+        Serial_Open(2,9600,8,UartParity_Disable);
        //Serial_Open(2,9600,8,UartParity_EVEN);
 	InitPara6();
 //        flash_id[0]=0x80;

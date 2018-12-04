@@ -468,6 +468,81 @@ void InitPara(void)
   {
     MSpec.RPW00002Ib = 288;
   }
+  
+  E2P_RData(buf,U_SEL,1);
+  
+  if(buf[0]&0x1)
+  {
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_3);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOG,GPIO_Pin_3);
+  }
+  
+  if(buf[0]&0x2)
+  {
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_2);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOG,GPIO_Pin_2);
+  }
+  
+  if(buf[0]&0x4)
+  {
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_1);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOG,GPIO_Pin_1);
+  }
+  
+  if(buf[0]&0x8)
+  {
+    HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_0);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOG,GPIO_Pin_0);
+  }
+  
+  if(buf[0]&0x10)
+  {
+    HT_GPIO_BitsSet(HT_GPIOB,GPIO_Pin_11);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOB,GPIO_Pin_11);
+  }
+  
+  if(buf[0]&0x20)
+  {
+    HT_GPIO_BitsSet(HT_GPIOE,GPIO_Pin_6);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOE,GPIO_Pin_6);
+  }
+  
+  if(buf[0]&0x40)
+  {
+    HT_GPIO_BitsSet(HT_GPIOE,GPIO_Pin_5);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOE,GPIO_Pin_5);
+  }
+  if(buf[0]&0x80)
+  {
+    HT_GPIO_BitsSet(HT_GPIOE,GPIO_Pin_4);
+  }
+  else
+  {
+    HT_GPIO_BitsReset(HT_GPIOE,GPIO_Pin_4);
+  }
+  
+  
   InitPara7();		
 }
 

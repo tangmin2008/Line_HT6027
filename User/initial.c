@@ -131,7 +131,7 @@ void PwrOnInit(void)
     HT_GPIO_BitsSet(HT_GPIOB,GPIO_Pin_0|GPIO_Pin_4|GPIO_Pin_10);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOOUT;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5|GPIO_Pin_11;  //增加模拟开关
     GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOB, &GPIO_InitStructure);
@@ -186,6 +186,11 @@ void PwrOnInit(void)
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_OD;
     HT_GPIO_Init(HT_GPIOE, &GPIO_InitStructure);
     HT_GPIO_BitsSet(HT_GPIOE,GPIO_Pin_0|GPIO_Pin_2);
+    
+    //增加模拟开关
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
+    HT_GPIO_Init(HT_GPIOE, &GPIO_InitStructure);
 #if 0
 	HT_GPIOE->PTDIR |= GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_6;
 	HT_GPIOE->PTOD  |= GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_6;
@@ -206,6 +211,10 @@ void PwrOnInit(void)
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
     HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_7|GPIO_Pin_9|GPIO_Pin_10);
+    
+    //增加模拟开关
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3;
+    HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14;
@@ -235,8 +244,8 @@ void PwrOnInit(void)
         NVIC_EnableIRQ(TIMER_0_IRQn);
 
 	//------------配置计量通讯口----------
-	HT_GPIOE->IOCFG |= (GPIO_Pin_4|GPIO_Pin_5);		/*配置GPIO为复用功能Pin*/ 
-	HT_GPIOE->AFCFG &=~ (GPIO_Pin_5|GPIO_Pin_4);		/*配置为第一复用功能*/
+	//HT_GPIOE->IOCFG |= (GPIO_Pin_4|GPIO_Pin_5);		/*配置GPIO为复用功能Pin*/ 
+	//HT_GPIOE->AFCFG &=~ (GPIO_Pin_5|GPIO_Pin_4);		/*配置为第一复用功能*/
 	HT_CMU_ClkCtrl1Config(CMU_CLKCTRL1_TMR2EN, ENABLE); 
 	HT_TMR2->TMRDIV = 0x00c7;                            /*!< 设置定时器预分频器  200分频   */
         HT_TMR2->TMRPRD = 0x157C;                             /*!< 设置定时器周期寄存器  50ms */   

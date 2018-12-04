@@ -1029,7 +1029,7 @@ void main(void)
         InitPara();			
         InitPara5();
         Serial_Open(2,9600,8,UartParity_Disable);
-       //Serial_Open(2,9600,8,UartParity_EVEN);
+        //Serial_Open(2,9600,8,UartParity_EVEN);
 	InitPara6();
 //        flash_id[0]=0x80;
 //        flash_id[1]=0x10;
@@ -1103,6 +1103,7 @@ void main(void)
         Serial_Open(2,115200,8,UartParity_Disable);
         xmodemReceive();
         udelay(10000);
+        //Serial_Open(2,9600,8,UartParity_EVEN);
         Serial_Open(2,9600,8,UartParity_Disable);
       }
       else

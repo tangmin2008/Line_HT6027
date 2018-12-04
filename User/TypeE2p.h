@@ -399,6 +399,7 @@
 #define CONST_H                           PW_ADDR+2  
 #define BASE_CURRENT                      CONST_H+5
 #define PW_IB                             BASE_CURRENT+5
+#define U_SEL                             PW_IB+5
 
 #define ErrorRegAddr			 E2P_PGLEN-0x800
 

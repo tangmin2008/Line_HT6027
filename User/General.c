@@ -459,7 +459,7 @@ void InitPara(void)
   memcpy(&MSpec.RBaseCurrent,buf,4);
   if((MSpec.RBaseCurrent<1000) || (MSpec.RBaseCurrent>10000))
   {
-    MSpec.RBaseCurrent = 5000;
+    MSpec.RBaseCurrent = 1000;
   }
   
   E2P_RData(buf,PW_IB,2);

@@ -192,6 +192,10 @@ void Pt_Event_Save(int ch)
   memcpy(tmp_buf+6,&SM.PQNum[ch][3],4);
   memcpy(tmp_buf+10,&Energy_Data[ch],32);
   LoadRecord(CH0_PTD_USEADDR+ch*48,tmp_buf);
+  if(SM.CalibCount != CALIBCOUNT1)
+  {
+    Insert_Push(TREND_TYPE,ch);
+  }
 }
 
 int GetPt_Event_num(int ch)
@@ -845,12 +849,19 @@ void ProcSec(void)
       }
       if(i_val==0)
         Real_Data[i].Pft = 0;
+      i_val = 0;
+      for(j=0;j<3;++j)
+      {
+        i_val += *((&Real_Data[i].Ua)+j);
+      }
+      if(i_val==0)
+        Real_Data[i].AFreq = 50000;
       IEC101Process();
     }
     
 #if 1   
   //  Pn_Event_Save(0,1,1);
-  //  Pt_Event_Save(0);
+    //Pt_Event_Save(0);
     for(i=0;i<MAX_CH_NUM;++i)
     {
       flag_p = SM.PQFlag[i]^SM.PQFlag_b[i];
@@ -928,6 +939,7 @@ void ProcMin(void)
     if((Flag.Power & F_PwrUp) == 0)
       return;
     //GetTime();
+    //Pt_Event_Save(0);
     MoveCurrentTimeBCD_Hex();
     Time_buf[0]=Clk.SecH;
     Time_buf[1]=Clk.MinH;

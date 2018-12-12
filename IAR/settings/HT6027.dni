@@ -31,7 +31,7 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [DebugChecksum]
-Checksum=-201895410
+Checksum=-1583890506
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -67,8 +67,8 @@ Fmt0=BCD3	4	0
 Fmt1=INT16U[16]	4	0
 Fmt2=u16[32]	4	0
 Fmt3=u8[256]	4	0
-Fmt4=u8[320]	4	0
-Fmt5=uint8_t[256]	4	0
+Fmt4=uint8_t[256]	4	0
+Fmt5=uint8_t[320]	4	0
 Fmt6=unsigned char[16]	4	0
 Fmt7=unsigned char[4]	4	0
 Fmt8=unsigned char[8]	4	0
@@ -76,7 +76,8 @@ Fmt9=unsigned int[8]	4	0
 Fmt10=unsigned short[8]	4	0
 [watch_formats]
 Fmt0={W}1:MSpec.RBaseCurrent	3	0
-Fmt1={W}1:oldcrc32	4	0
+Fmt1={W}1:lpIEC101->dwReadAd.Dword	4	0
+Fmt2={W}1:oldcrc32	4	0
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -118,6 +119,10 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 1
 LogFile=_ "$PROJ_DIR$\TermIO.log"
@@ -133,10 +138,6 @@ Mode=3
 Graph=0
 Symbiont=0
 Exclusions=
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
 [Disassemble mode]
 mode=3
 [Breakpoints2]
@@ -144,7 +145,9 @@ Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.296.3" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.418.3" 0 0 1 "" 0 "" 0
 Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\User\xmodem.c}.169.11" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\User\Measure.c}.1155.3" 0 0 1 "" 0 "" 0
-Count=4
+Bp4=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\User\main.c}.1079.9" 0 0 1 "" 0 "" 0
+Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\User\IEC101.c}.181.3" 0 0 1 "" 0 "" 0
+Count=6
 [Aliases]
 Count=0
 SuppressDialog=0

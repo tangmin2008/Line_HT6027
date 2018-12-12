@@ -483,7 +483,7 @@ void ATT7022Init(unsigned short Devads)
   udelay(600); 
   *SPIPara->AD_RST_PTSET |= SPIPara->AD_RST;
   //SM.BatteryWTime=0;
-  udelay(5000); 
+  udelay(30000); 
   //SM.BatteryWTime=0;
  // udelay(1000);
   //SetIDefault(Devads);//zzltest

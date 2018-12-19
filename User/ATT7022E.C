@@ -601,7 +601,11 @@ void ATT7022Init(unsigned short Devads)
 #else
           EpAds = RegAds * 3;
 #endif
-          EpAds += E2P_PGLEN;
+          if(MSpec.CharReserve1&(1<<Devads))
+            EpAds += E2P_PGLEN*2;
+          else
+            EpAds += E2P_PGLEN;
+       
           EpAds -= (0x100*Devads); //10.07.30
           E2P_RData( Point, EpAds, 2 );				//10.07.30
           ATT7022WtReg( RegAds+128, Point ,Devads);
@@ -649,7 +653,7 @@ void ATT7022Init(unsigned short Devads)
 //    Value = 0x0000FEF7+0x00002F1B + 0x000010DB+0x000002;			//调整温度补偿系数		//13.08.09
  //   Value = 0x00013EEF;	
 //    Value = 0x0000FF11+0x00002B53 + 0x0000D483+0x000002;			//调整温度补偿系数		//13.08.09
-   Value = 0x0001FEE9;	
+        Value = 0x0001FEE9;	
     
 //	*Point = 0xF7;												
 //	*(Point+1) = 0xFE;
@@ -687,7 +691,10 @@ void ATT7022Init(unsigned short Devads)
 #else
 		EpAds = RegAds * 3;
 #endif
-		EpAds += E2P_PGLEN;	
+		if(MSpec.CharReserve1&(1<<Devads))
+                  EpAds += E2P_PGLEN*2;
+                else
+                  EpAds += E2P_PGLEN;	
 		EpAds -= (0x100*Devads);
 		E2P_RData( Point, EpAds, 2 );
 //                *Point = 0x00;						
@@ -767,7 +774,11 @@ unsigned char ComAdjWrite(unsigned char* ComBuf ,unsigned short Devads)
 #else
     Temp2 = Temp * 3;								
 #endif
-    Temp3 = Temp2 + E2P_PGLEN;
+    if(MSpec.CharReserve1&(1<<Devads))
+      Temp3 = Temp2+E2P_PGLEN*2;
+    else
+      Temp3 = Temp2+E2P_PGLEN;
+   // Temp3 = Temp2 + E2P_PGLEN;
     Temp3 -= (0x100*Devads);
 //    Temp3 = E2P_PGLEN - 0x100;	(0x100*Devads); //10.07.30
 //    Temp3 += Temp2;									//10.07.30

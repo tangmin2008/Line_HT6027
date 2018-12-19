@@ -470,7 +470,7 @@ void InitPara(void)
   }
   
   E2P_RData(buf,U_SEL,1);
-  
+  MSpec.CharReserve1 = buf[0];
   if(buf[0]&0x1)
   {
     HT_GPIO_BitsSet(HT_GPIOG,GPIO_Pin_3);

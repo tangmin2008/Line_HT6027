@@ -955,7 +955,7 @@ void ProcMin(void)
       Save_Data(Time_buf);
     }
     
-    Save_RandData(Time_buf);
+    //Save_RandData(Time_buf);
  //   Save_MonthData(Time_buf);
     ATT7022EStateCheckRun(Clk.MinH%MAX_CH_NUM);
 }	
@@ -1006,7 +1006,8 @@ void ProcDay(void)
     Save_MonthData(Time_buf);
   }
 }	
-
+#define COM_PARITY   UartParity_Disable  
+//#define COM_PARITY   UartParity_EVEN
 void main(void)
 {
   unsigned int i;
@@ -1040,7 +1041,7 @@ void main(void)
         VarInit();	
         InitPara();			
         InitPara5();
-        Serial_Open(2,9600,8,UartParity_Disable);
+        Serial_Open(2,9600,8,COM_PARITY);
         //Serial_Open(2,9600,8,UartParity_EVEN);
 	InitPara6();
 //        flash_id[0]=0x80;
@@ -1116,7 +1117,7 @@ void main(void)
         xmodemReceive();
         udelay(10000);
         //Serial_Open(2,9600,8,UartParity_EVEN);
-        Serial_Open(2,9600,8,UartParity_Disable);
+        Serial_Open(2,9600,8,COM_PARITY);
       }
       else
       {	

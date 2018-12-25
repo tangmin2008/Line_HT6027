@@ -1430,6 +1430,7 @@ typedef struct
   unsigned char P_Time[8][4];
   unsigned char Delay30Min;
   unsigned char Delay60Sec;
+  unsigned char rebootflag;
 } SRAM;
 
 //总及分相电压检测记录结构

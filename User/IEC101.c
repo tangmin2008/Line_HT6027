@@ -634,7 +634,7 @@ unsigned char s_Devtype[5]="DTU-0";
 unsigned char s_Operation[]="N/A";
 unsigned char s_Manufacture[]="¾æ»ª";
 unsigned char s_Hardwarever[]="B";
-unsigned char s_Firmwarever[]="01.15";
+unsigned char s_Firmwarever[]="01.16";
 unsigned char s_FirmwareCrc[]="0x7777";
 unsigned char s_Protocolver[]="V1.000";
 unsigned char s_Model[]="JH4000";
@@ -1053,7 +1053,11 @@ void Write_Para(unsigned char *buf)
     if((buf[2]==0xaa) && (buf[3]==0x55))
       Flag.Power |=F_IrmsCheck;
     else if((buf[2]==0x55) && (buf[3]==0xaa))
-      NVIC_SystemReset();
+    {
+      SM.TestDisCnt=2;
+      SM.rebootflag =1;
+      //NVIC_SystemReset();
+    }
     else if((buf[2]==0xaa) && (buf[3]==0xaa))
     {
       Progarm_Update();

@@ -1282,6 +1282,7 @@ void PLinkRecvProcessF(u8 byConField)
     switch(lpIEC101->PRecvFrame.byFunCode)
     {
     case RESET_LINK:
+#if 0      
       if (lpIEC101->initstatus == justinit)
       {
         lpIEC101->PReFrameType = CALL_DATA1;
@@ -1296,16 +1297,17 @@ void PLinkRecvProcessF(u8 byConField)
         lpIEC101->byPSDdStep=0;
       }
       else
+#endif        
       {
         lpIEC101->PReMsgType = lpIEC101->PReMsgType_bak;
-        lpIEC101->Pacd ^=1;
+        //lpIEC101->Pacd ^=1;
         lpIEC101->Pdfc = 1;
       }
       break;
     case LINK_GOOD:
       lpIEC101->PReFrameType = lpIEC101->PRecvFrame.byFunCode;
       lpIEC101->PSeAppLayer.LinkFunCode = 0x00;
-      lpIEC101->Pacd = 2;
+      lpIEC101->Pacd |= 2;
       break;
     default:
       lpIEC101->PSendFrame.byFull=0;
@@ -1407,7 +1409,7 @@ void PLinkRecvProcessF(u8 byConField)
   switch(lpIEC101->PRecvFrame.byFunCode)
   {
   case RESET_LINK:
-      lpIEC101->Pacd =0;
+      lpIEC101->Pacd = 0;
       lpIEC101->PfcbC = 0;
       lpIEC101->PSeAppLayer.LinkFunCode = 0x00;
       lpIEC101->firstData = nofirstdata;
@@ -1420,12 +1422,12 @@ void PLinkRecvProcessF(u8 byConField)
       lpIEC101->byCOI = 2;
       break;
   case CALL_LINK_2:
-    lpIEC101->Pacd = 0;
+    //lpIEC101->Pacd &= 1;
     lpIEC101->PSeAppLayer.LinkFunCode = 0x00;
     break;
   case CALL_LINK:
   case CALL_ACD:
-    lpIEC101->Pacd = 0;
+    //lpIEC101->Pacd &= 1;
     lpIEC101->PSeAppLayer.LinkFunCode = 0x0B;
     break;
   default:
@@ -1466,7 +1468,8 @@ void PLinkRecvProcessV(u8 byConField)
   lpIEC101->PfcvC = byConField & 0x10;
   lpIEC101->PReAppLayer.lpByBuf = lpIEC101->PRecvFrame.byLinkBuf;
   lpIEC101->PRecvFrame.byFunCode = byConField & 0x0F;
-  lpIEC101->Pacd = 0;
+  //lpIEC101->Pacd = 0;
+  lpIEC101->Pacd &= 1;
   if(3==lpIEC101->PRecvFrame.byFunCode)
   {
     if(3==lpIEC101->UnsolTimeInterval)    //先发链路确认再等待召唤二级数据
@@ -1475,6 +1478,7 @@ void PLinkRecvProcessV(u8 byConField)
       lpIEC101->PSeAppLayer.LinkFunCode = 0x00;
       lpIEC101->PSeAppLayer.byMsgNum = 0;
       lpIEC101->PSeAppLayer.byFull = 1;
+     // lpIEC101->Pacd |= 1;
     }
   }
   if(lpIEC101->PfcvC)
@@ -1964,11 +1968,14 @@ void SearchFirstData(void)
   {
     if(lpIEC101->PSeAppLayer.byFull == 1)
       return;
-    if((lpIEC101->initstatus==justinit) /*&& (lpIEC101->PWinTimer>900)*/)
+    
+    if(lpIEC101->initstatus==justinit)
     {
       lpIEC101->PSeAppLayer.LinkFunCode = 9;
       lpIEC101->PSeAppLayer.byFull = 1;
-      lpIEC101->Pacd = 2;
+      lpIEC101->Pacd |= 2;
+      lpIEC101->initstatus=reset_link;
+      return;
     }
     //if(((lpIEC101->PRecvFrame.byFunCode == RESET_LINK) || (lpIEC101->PRecvFrame.byFunCode == TRAN_CONFIRM_DATA)) /*&& (lpIEC101->PWinTimer>800)*/ /*&& (lpIEC101->initstatus == justinit)*/)
     if((lpIEC101->initstatus==reset_link) || (lpIEC101->PRecvFrame.byFunCode == TRAN_CONFIRM_DATA))
@@ -1979,19 +1986,17 @@ void SearchFirstData(void)
       //  lpIEC101->Pacd = 2;
       SendData1();
     }
-    if(lpIEC101->PRecvFrame.byFunCode == LINK_GOOD)
+    if((lpIEC101->PRecvFrame.byFunCode == LINK_GOOD) || (lpIEC101->initstatus==reset_link))
     {
       lpIEC101->PSeAppLayer.byFull = 1;
       lpIEC101->PSeAppLayer.LinkFunCode = RESET_LINK;
       lpIEC101->PRecvFrame.byFunCode = 0;
       lpIEC101->initstatus = reset_link;
       //lpIEC101->firstData = substinit;
-      lpIEC101->Pacd = 2;
-    }
-    if (lpIEC101->initstatus == justinit)
-    {
+      lpIEC101->Pacd |= 2;
       lpIEC101->firstData = substinit;		// 子站初始化
     }
+    
     /*  if(lpIEC101->wTester.Byte.l && lpIEC101->PWinTimer>200)
     {
     lpIEC101->PWinTimer = 0;
@@ -3099,7 +3104,7 @@ void SendChanTestAck(void)
   byMsgNum = OrgnizeTestMsg();
   lpIEC101->PSeAppLayer.byMsgNum = byMsgNum;
   lpIEC101->PSeAppLayer.LinkFunCode = 3;
-  lpIEC101->Pacd = 0x2;
+  //lpIEC101->Pacd = 0x2;
   lpIEC101->Pdfc = 1;
 }
                                     
@@ -4551,14 +4556,24 @@ void PLinkSendProcess(void)
     {
       lpIEC101->Pdfc |=1;
       lpIEC101->Pacd |=2;
-    }
-    if(lpIEC101->PSendFrame.byFunCode==TRAN_DATA)
-    {
-      lpIEC101->Pdfc |=0;
-      //lpIEC101->Pacd |=2;
-    }
-    byConField = 0x80 | (lpIEC101->Pacd << 5) | (lpIEC101->Pdfc << 4)
+      byConField = 0x80 | (lpIEC101->Pacd << 5) | (lpIEC101->Pdfc << 4)
       | lpIEC101->PSendFrame.byFunCode;
+    }
+    else
+    {
+      byConField = 0x80 | (lpIEC101->Pacd << 5) | (lpIEC101->Pdfc << 4)
+      | lpIEC101->PSendFrame.byFunCode;
+      byConField &= 0xcf;
+    }
+
+    if(lpIEC101->PSendFrame.byFunCode==TRAN_CONFIRM_DATA)
+    {
+      lpIEC101->Pacd ^=1;
+    }
+    else
+    {
+      lpIEC101->Pacd &= 1;
+    }
   }
   else
     byConField = (lpIEC101->Pacd << 5) | (lpIEC101->Pdfc << 4)
@@ -4608,7 +4623,7 @@ void Iec101LinkSend(void)
       //if(lpIEC101->byFrameIntval<15)
       //lpIEC101->byFrameIntval += 200;
       //lpIEC101->byFrameIntval += 300;
-      if((lpIEC101->PSendFrame.byFunCode==YES_ACK) && ((lpIEC101->Pacd&2)!=2))
+      if((lpIEC101->PSendFrame.byFunCode==YES_ACK) && ((lpIEC101->PSendFrame.byLinkBuf[1]&0x40)!=0x40))
         lpIEC101->sendflag = (lpIEC101->PSendFrame.wFrameLen)+100;
       else
         lpIEC101->sendflag = (lpIEC101->PSendFrame.wFrameLen)+900;

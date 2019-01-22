@@ -1117,8 +1117,9 @@ void Prog_InfoData(INT32U *info)
 	}
 	//擦除InfoData--------------------------------------------------------------
 //关闭预读取指令模式//
+        
 	HT_CMU->PREFETCH=0X00000;
-
+        __disable_irq();
 	EnWr_WPREG();
 	HT_CMU->FLASHLOCK = 0x7A68;												//unlock flash memory
 	HT_CMU->INFOLOCK  = 0xF998;												//unlock information flash memory
@@ -1142,9 +1143,10 @@ void Prog_InfoData(INT32U *info)
 	HT_CMU->INFOLOCK  = ~0xF998;											//lock information flash memory
 	HT_CMU->FLASHCON  = 0x00;												//read only
 	DisWr_WPREG();
-
+        __enable_irq();
 //主频太高开启预读取指令模式//
 	HT_CMU->PREFETCH=0X00001;
+        
 }
 
 unsigned char NCom_WriteCPU_RTC(unsigned char* ComBuf )

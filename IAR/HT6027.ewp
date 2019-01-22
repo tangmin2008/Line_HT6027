@@ -588,7 +588,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -596,7 +596,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>HT6027.bin</state>
+          <state>HT6027.hex</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>

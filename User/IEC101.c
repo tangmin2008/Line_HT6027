@@ -4887,8 +4887,8 @@ void InitIEC101Prot(void)
     lpIEC101->wLinkAdd.Word=1;
   lpIEC101->initstatus = notinit;
   lpIEC101->haveset = FALSE;
-  lpIEC101->FlagPingH = 1;
-  lpIEC101->UnsolTimeInterval=3;
+  lpIEC101->FlagPingH = 0;
+  lpIEC101->UnsolTimeInterval=0;
   lpIEC101->firstData = nofirstdata;
   
   

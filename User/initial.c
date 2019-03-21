@@ -219,7 +219,7 @@ void PwrOnInit(void)
     
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IOIN;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14;
-    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Up;
+    GPIO_InitStructure.GPIO_InputStruct = GPIO_Input_Floating;
     GPIO_InitStructure.GPIO_OutputStruct = GPIO_Output_PP;
     HT_GPIO_Init(HT_GPIOG, &GPIO_InitStructure);
     

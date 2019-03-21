@@ -1010,8 +1010,8 @@ void ProcDay(void)
     Save_MonthData(Time_buf);
   }
 }	
-//#define COM_PARITY   UartParity_Disable  
-#define COM_PARITY   UartParity_EVEN
+#define COM_PARITY   UartParity_Disable  
+//#define COM_PARITY   UartParity_EVEN
 void main(void)
 {
   unsigned int i;
@@ -1096,6 +1096,7 @@ void main(void)
       if(((Flag.Power & F_PwrUp) != 0) && ( PowerCheck() == 0 ))
       {
         Save_ECRamBufAds();
+        break;
 //       // Flag.BatState=1;
 //        //PwrDnInit();
       }	

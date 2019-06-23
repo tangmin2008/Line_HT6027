@@ -126,10 +126,12 @@ struct IEC101_STRUCT
   u8 pcc_num;
   u8 ptt_num;
   long nLastYcVal[MAX_CH_NUM*23];
+  u8    YcValnum[MAX_CH_NUM*23];
   int nStartYcOver;
   int SendYcN;
   int byRange;
   int sendflag;
+  int byYKWaitTimes;
 };
 
 /***************************************************************************

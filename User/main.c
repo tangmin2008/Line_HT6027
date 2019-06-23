@@ -860,9 +860,9 @@ void ProcSec(void)
       }
       if(i_val==0)
         Real_Data[i].AFreq = 50000;
-      IEC101Process();
+      
     }
-    
+    IEC101Process();
 #if 1   
   //  Pn_Event_Save(0,1,1);
     //Pt_Event_Save(0);
@@ -938,7 +938,7 @@ void ProcSec(void)
 void ProcMin(void)
  {
     unsigned char Time_buf[8];
-    unsigned short year;
+    unsigned short year,i;
     Flag.Clk &= ~F_Min;
     if((Flag.Power & F_PwrUp) == 0)
       return;
@@ -962,6 +962,30 @@ void ProcMin(void)
     //Save_RandData(Time_buf);
  //   Save_MonthData(Time_buf);
     ATT7022EStateCheckRun(Clk.MinH%MAX_CH_NUM);
+    if((Real_Data[0].Ua>8000) && (Real_Data[0].Ub<80))
+    {
+      if(Para.PW==0x34)
+      {
+        Para.PW=0x33;
+        HT_GPIO_BitsReset(HT_GPIOC,GPIO_Pin_4);
+        for(i=0;i<MAX_CH_NUM;i++)
+        {
+          ATT7022Init(i);	
+        }
+      }
+    }
+    else
+    {
+      if(Para.PW==0x33)
+      {
+        Para.PW=0x34;
+        HT_GPIO_BitsSet(HT_GPIOC,GPIO_Pin_4);
+        for(i=0;i<MAX_CH_NUM;i++)
+        {
+          ATT7022Init(i);
+        }
+      }
+    }
 }	
 
 /***************************************************
@@ -1010,8 +1034,8 @@ void ProcDay(void)
     Save_MonthData(Time_buf);
   }
 }	
-#define COM_PARITY   UartParity_Disable  
-//#define COM_PARITY   UartParity_EVEN
+//#define COM_PARITY   UartParity_Disable  
+#define COM_PARITY   UartParity_EVEN
 void main(void)
 {
   unsigned int i;

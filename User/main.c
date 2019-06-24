@@ -1034,8 +1034,8 @@ void ProcDay(void)
     Save_MonthData(Time_buf);
   }
 }	
-//#define COM_PARITY   UartParity_Disable  
-#define COM_PARITY   UartParity_EVEN
+#define COM_PARITY   UartParity_Disable  
+//#define COM_PARITY   UartParity_EVEN
 void main(void)
 {
   unsigned int i;

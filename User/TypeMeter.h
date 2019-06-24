@@ -1360,4 +1360,4 @@
 
 #define LOAR_TYPE               1
 #define TREND_TYPE              2
-#define MAX_CH_NUM              8
+#define MAX_CH_NUM              6

@@ -288,6 +288,8 @@ void compensate_day()
  int i,j,k;
  for(i=0;i<MAX_CH_NUM;++i)
  {
+   if(Day_Record_Num()==0)
+     break;
    ReadRecord(FRZD0_USEADDR+30*i,tmp_buf,0);
    memcpy(time_buf,tmp_buf,6); 
    tmp_buf[3] = Clk.DayH;
@@ -396,6 +398,8 @@ void compensate_month()
  int i,j,k;
  for(i=0;i<MAX_CH_NUM;++i)
  {
+   if(Month_Record_Num()==0)
+     break;
    ReadRecord(MOND0_USEADDR+30*i,tmp_buf,0);
    memcpy(time_buf,tmp_buf,6); 
    tmp_buf[3] = Clk.DayH;

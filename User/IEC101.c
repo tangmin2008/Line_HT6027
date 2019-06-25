@@ -3395,7 +3395,7 @@ void Dir_Send(void)
         lpIEC101->ptt_num= JIAOSHI_Record_Num();
         if(lpIEC101->ptt_num>10)
           lpIEC101->ptt_num = 10;
-        lpIEC101->pcc_num=GetClear_num(m_Channel_no);
+        lpIEC101->pcc_num=GetClear_num(lpIEC101->byPSGenStep/2);
         if(lpIEC101->pcc_num>10)
           lpIEC101->pcc_num = 10;
         lpIEC101->pce_num = CEVENT_Record_Num(lpIEC101->byPSGenStep/2);
@@ -3582,7 +3582,7 @@ u8 SendFileGenAck(u8 bySendReason)
         lpIEC101->pcc_num=GetClear_num(m_Channel_no);
         if(lpIEC101->pcc_num>10)
           lpIEC101->pcc_num = 10;
-        lpIEC101->pce_num = CEVENT_Record_Num(lpIEC101->byPSGenStep/3);
+        lpIEC101->pce_num = CEVENT_Record_Num(m_Channel_no);
         if(lpIEC101->pce_num>10)
           lpIEC101->pce_num = 10;
         if(flag)
@@ -4467,6 +4467,7 @@ void AppVFrame(void)
     lpIEC101->PSeAppLayer.byFull = 1;
     lpIEC101->PReMsgType = 0;
     lpIEC101->PReMsgType_bak = 0;
+    lpIEC101->Pacd = 0;
     break;
   case C_CI_NA_1:				//召唤电度
     if ( lpIEC101->TypeProtocol)//2002版的101规约//付2005.8.30
@@ -4495,6 +4496,7 @@ void AppVFrame(void)
     SendReadDataAck();
     lpIEC101->PSeAppLayer.byFull = 1;
     lpIEC101->PReMsgType = 0;
+    lpIEC101->Pacd = 0;
     break;
   case C_SC_NA_1:				//单点遥控
   case C_DC_NA_1:				//遥控
@@ -4807,7 +4809,10 @@ void Iec101LinkSend(void)
       }
 #else
       if((lpIEC101->FlagPingH==0) || (lpIEC101->PSendFrame.byFunCode==TRAN_CONFIRM_DATA))
+      {
         lpIEC101->OrgnizeFrame = 0 ;
+        lpIEC101->sendflag = 3000;
+      }
       if((lpIEC101->PReFrameType == 0xff))
       {
         lpIEC101->OrgnizeFrame = 0 ;
@@ -5057,7 +5062,7 @@ void InitIEC101Prot(void)
     lpIEC101->wLinkAdd.Word=1;
   lpIEC101->initstatus = notinit;
   lpIEC101->haveset = FALSE;
-  lpIEC101->FlagPingH = 1;
+  lpIEC101->FlagPingH = 0;
   lpIEC101->UnsolTimeInterval=3;
   lpIEC101->firstData = nofirstdata;
   

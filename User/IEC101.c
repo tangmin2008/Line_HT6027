@@ -2806,7 +2806,14 @@ void SendGeneralData(void)
       lpIEC101->frameno = lpIEC101->frameno ? 0 : 1;
       byMsgNum = OrgnizeYcMsg(lpby,bySendReason,byFrameNo);
       lpIEC101->PSeAppLayer.byMsgNum = byMsgNum;
-      lpIEC101->PSeAppLayer.LinkFunCode = 8;
+      if(lpIEC101->FlagPingH)
+      {
+        lpIEC101->PSeAppLayer.LinkFunCode = 3;//8;
+      }
+      else
+      {
+        lpIEC101->PSeAppLayer.LinkFunCode = 8;
+      }
       if(lpIEC101->byReason==1)
         lpIEC101->PSeAppLayer.LinkFunCode = 4;
       if (!byMsgNum)	//没有实际信息体内容
@@ -2818,7 +2825,14 @@ void SendGeneralData(void)
           bySendReason = ACTTERM;
           byMsgNum = OrgnizeGenAck(bySendReason);
           lpIEC101->PSeAppLayer.byMsgNum = byMsgNum;
-          lpIEC101->PSeAppLayer.LinkFunCode = 8;	//总召唤结束帧功能码为8
+          if(lpIEC101->FlagPingH)
+          {
+            lpIEC101->PSeAppLayer.LinkFunCode = 3;//8;
+          }
+          else
+          {
+            lpIEC101->PSeAppLayer.LinkFunCode = 8;
+          }	//总召唤结束帧功能码为8
         }
         else	//分组召唤
           lpIEC101->PSeAppLayer.LinkFunCode = 9;	//无所请求数据的确认帧
@@ -2873,7 +2887,14 @@ void SendGeneralData(void)
     bySendReason = ACTTERM;
     byMsgNum = OrgnizeGenAck(bySendReason);
     lpIEC101->PSeAppLayer.byMsgNum = byMsgNum;
-    lpIEC101->PSeAppLayer.LinkFunCode = 8;	//总召唤结束帧功能码为8
+    if(lpIEC101->FlagPingH)
+    {
+      lpIEC101->PSeAppLayer.LinkFunCode = 3;//8;
+    }
+    else
+    {
+      lpIEC101->PSeAppLayer.LinkFunCode = 8;
+    }	//总召唤结束帧功能码为8
     lpIEC101->byPSGenStep++;
     lpIEC101->Pacd = 0;
   }      
@@ -5062,7 +5083,7 @@ void InitIEC101Prot(void)
     lpIEC101->wLinkAdd.Word=1;
   lpIEC101->initstatus = notinit;
   lpIEC101->haveset = FALSE;
-  lpIEC101->FlagPingH = 0;
+  lpIEC101->FlagPingH = 1;
   lpIEC101->UnsolTimeInterval=3;
   lpIEC101->firstData = nofirstdata;
   

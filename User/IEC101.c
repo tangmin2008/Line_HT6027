@@ -217,7 +217,7 @@ int Assamble_MsgFormat(int sect,char *In,char *Out)
     memcpy(&ul_val,In+6+i*4,4);
     ul_val %= 100000000;
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -298,7 +298,7 @@ int Assamble_PnMsgFormat(int sect,char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -429,7 +429,7 @@ int Assamble_PtXmlFormat(char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -483,7 +483,7 @@ int Assamble_CMsgFormat(char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -537,7 +537,7 @@ int Assamble_CXmlFormat(char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -588,7 +588,7 @@ int Assamble_PnXmlFormat(int ch,int phase,char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -612,7 +612,7 @@ int Assamble_PnXmlFormat(int ch,int phase,char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
@@ -873,7 +873,7 @@ short GetDd(unsigned short kwhno,unsigned char *buf)
     //memcpy(buf,&Ptr[ptr_v],4);
     Ptr=(unsigned long*)&Energy_Data[m_ch];
     f_val = Ptr[ptr_v]; 
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     memcpy(buf,(unsigned char *)&f_val,4);
     //*(buf) = tmp_buf[0];//(u8)nVal;	// Ò£²âÖµ
     //		*(lpby + byMsgNum ++) = tmp_buf[1];//(u8)(nVal >> 8);
@@ -1886,7 +1886,7 @@ u8  OrgnizeTDdMsg(u8 bySendReason,u8 byFrameNo)
       memset(lpby + byMsgNum,0,12);
       memcpy(&dwDdVal,tmp_buf+6+4*i,4);
       f_val = dwDdVal;
-      f_val = f_val/1000;
+      f_val = f_val/EN_DOTS;
       memcpy(lpby + byMsgNum,(unsigned char *)&f_val,4);
       memcpy(lpby + byMsgNum+6,tmp_buf,6);
       byMsgNum +=12;  
@@ -1937,7 +1937,7 @@ u8  OrgnizeTrendMsg(u8 bySendReason,u8 byFrameNo)
       memset(lpby + byMsgNum,0,12);
       memcpy(&dwDdVal,tmp_buf+10+4*i,4);
       f_val = dwDdVal;
-      f_val = f_val/1000;
+      f_val = f_val/EN_DOTS;
       memcpy(lpby + byMsgNum,(unsigned char *)&f_val,4);
       memcpy(lpby + byMsgNum+6,tmp_buf,6);
       i_val = tmp_buf[0];

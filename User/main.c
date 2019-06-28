@@ -292,6 +292,9 @@ void compensate_day()
      break;
    ReadRecord(FRZD0_USEADDR+30*i,tmp_buf,0);
    memcpy(time_buf,tmp_buf,6); 
+   tmp_buf[0] = 0;
+   tmp_buf[1] = 0;
+   tmp_buf[2] = 0;
    tmp_buf[3] = Clk.DayH;
    tmp_buf[4] = Clk.Month;
    year = Clk.YearH;
@@ -401,8 +404,11 @@ void compensate_month()
    if(Month_Record_Num()==0)
      break;
    ReadRecord(MOND0_USEADDR+30*i,tmp_buf,0);
-   memcpy(time_buf,tmp_buf,6); 
-   tmp_buf[3] = Clk.DayH;
+   memcpy(time_buf,tmp_buf,6);
+   tmp_buf[0] = 0;
+   tmp_buf[1] = 0;
+   tmp_buf[2] = 0;
+   tmp_buf[3] = 1;//Clk.DayH;
    tmp_buf[4] = Clk.Month;
    year = Clk.YearH;
    year = year*256 + Clk.YearL;
@@ -532,7 +538,7 @@ void EC_MeasA(void)
   unsigned long* ECRAds;
   unsigned short ECEAds;
   unsigned int Ps2;
-  Ps2 = MSpec.RMeterConst/1000;
+  Ps2 = MSpec.RMeterConst/EN_DOTS;
   for( i=0;i<ECUnitNum;++i)
   {
     ECRamBufAdsPtr = ECRgTab[i].ECRamBufAds;

@@ -1361,3 +1361,4 @@
 #define LOAR_TYPE               1
 #define TREND_TYPE              2
 #define MAX_CH_NUM              6
+#define EN_DOTS                 10000

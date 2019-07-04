@@ -376,7 +376,7 @@ int Assamble_PtMsgFormat(char *In,char *Out)
     Len += strlen(tmp);
     memcpy(&ul_val,In+10+i*4,4);
     f_val = ul_val;
-    f_val = f_val/1000;
+    f_val = f_val/EN_DOTS;
     sprintf(tmp,"%.3f",f_val);
     if(strlen(tmp)>=8)
     {
